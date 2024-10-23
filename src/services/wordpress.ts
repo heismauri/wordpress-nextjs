@@ -12,17 +12,26 @@ interface WordPressPostParams {
   slug?: string | null;
   sticky?: boolean;
   embed?: boolean;
-  categoryID?: number;
-  tagID?: number;
+  categoryId?: number;
+  tagId?: number;
+  authorId?: number;
 }
 
 interface WordPressParams {
   slug: string;
 }
 
-const getPosts = async (
-  { page = 1, perPage = 1, search, slug, sticky, embed = true, categoryID, tagID }: WordPressPostParams = {}
-): Promise<Result<Posts, Error>> => {
+const getPosts = async ({
+  page = 1,
+  perPage = 1,
+  search,
+  slug,
+  sticky,
+  embed = true,
+  categoryId,
+  tagId,
+  authorId
+}: WordPressPostParams = {}): Promise<Result<Posts, Error>> => {
   try {
     const postsEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/posts`);
     const postsParams = new URLSearchParams({
@@ -34,8 +43,9 @@ const getPosts = async (
     if (slug) postsParams.set('slug', slug);
     if (sticky) postsParams.set('sticky', '1');
     if (embed) postsParams.set('_embed', '1');
-    if (categoryID) postsParams.set('categories', categoryID.toString());
-    if (tagID) postsParams.set('tags', tagID.toString());
+    if (categoryId) postsParams.set('categories', categoryId.toString());
+    if (tagId) postsParams.set('tags', tagId.toString());
+    if (authorId) postsParams.set('author', authorId.toString());
     postsEndpoint.search = postsParams.toString();
     const response = await fetch(postsEndpoint);
 
@@ -81,7 +91,7 @@ const getCategory = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Er
   } catch {
     return Err(new Error('Failed to fetch category'));
   }
-}
+};
 
 const getTag = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>> => {
   try {
@@ -98,7 +108,7 @@ const getTag = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>>
   } catch {
     return Err(new Error('Failed to fetch tag'));
   }
-}
+};
 
 const getAuthor = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>> => {
   try {
@@ -115,6 +125,6 @@ const getAuthor = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Erro
   } catch {
     return Err(new Error('Failed to fetch author'));
   }
-}
+};
 
 export { getPosts, getPage, getCategory, getTag, getAuthor };

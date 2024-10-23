@@ -29,7 +29,7 @@ const SingleCategory = async ({ params: { slug, page } } : { params: { slug: str
     return notFound();
   }
 
-  const postResult = await getPosts({ page: currentPage, perPage: 10, categoryID: category.id });
+  const postResult = await getPosts({ page: currentPage, perPage: 10, categoryId: category.id });
   if (postResult.isErr()) {
     throw new Error(postResult.unwrapErr().message);
   }
