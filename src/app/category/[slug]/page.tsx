@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
 import { getPosts, getCategory } from '@/services/wordpress';
+import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
 export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
@@ -34,7 +35,14 @@ const SingleCategory = async ({ params: { slug, page } } : { params: { slug: str
   }
 
   const { count, posts } = postResult.unwrap();
-  return <PaginatedPosts count={count} posts={posts} baseURL={`/category/${slug}`} currentPage={currentPage} />;
+  return (
+    <MainContainer>
+      <h1 className="mb-6 lowercase">
+        Category: <span className="font-sans underline underline-offset-2 decoration-red-500">{category.name}</span>
+      </h1>
+      <PaginatedPosts count={count} posts={posts} baseURL={`/category/${slug}`} currentPage={currentPage} />
+    </MainContainer>
+  );
 }
 
 export default SingleCategory;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { getPosts } from '@/services/wordpress';
+import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
 export const metadata: Metadata = {
@@ -16,7 +17,11 @@ const Posts = async ({ params: { page } } : { params: { page?: string } }) => {
   }
 
   const { count, posts } = result.unwrap();
-  return <PaginatedPosts count={count} posts={posts} baseURL="/posts" currentPage={currentPage} />;
+  return (
+    <MainContainer>
+      <PaginatedPosts count={count} posts={posts} baseURL="/posts" currentPage={currentPage} />
+    </MainContainer>
+  );
 }
 
 export default Posts;

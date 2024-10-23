@@ -5,7 +5,6 @@ import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid
 import { Posts } from '@/types/Post';
 import getReadingTime from '@/utils/getReadingTime';
 import getTextFromHTML from '@/utils/getTextFromHTML';
-import MainContainer from '@/components/MainContainer';
 
 interface PaginatedPostsProps extends Posts {
   baseURL: string;
@@ -15,7 +14,7 @@ interface PaginatedPostsProps extends Posts {
 const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsProps) => {
   const totalPages = Math.ceil(count / 10);
   return (
-    <MainContainer>
+    <>
       <div className="grid grid-cols-2 gap-6">
         {posts.map((post) => (
           <Link
@@ -55,7 +54,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
         ))}
       </div>
       {totalPages > 1 && (
-        <div className="grid grid-cols-3 gap-6 my-6">
+        <div className="grid grid-cols-3 gap-6 mt-6">
           <div className="sr-only">Pagination</div>
           <div className="text-left font-serif">
             <Link
@@ -82,7 +81,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
           </div>
         </div>
       )}
-    </MainContainer>
+    </>
   );
 };
 

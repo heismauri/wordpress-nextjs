@@ -83,4 +83,21 @@ const getCategory = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Er
   }
 }
 
-export { getPosts, getPage, getCategory };
+const getTag = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>> => {
+  try {
+    const tagEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/tags`);
+    tagEndpoint.search = new URLSearchParams({
+      per_page: '1',
+      slug
+    }).toString();
+    const response = await fetch(tagEndpoint);
+
+    const body = await response.json();
+    const [tag] = body;
+    return Ok(tag || null);
+  } catch {
+    return Err(new Error('Failed to fetch tag'));
+  }
+}
+
+export { getPosts, getPage, getCategory, getTag };
