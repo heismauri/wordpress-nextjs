@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import defaultTheme from 'tailwindcss/defaultTheme';
 import typography from '@tailwindcss/typography';
 
 const config: Config = {
@@ -14,7 +15,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-dm-sans)']
+        sans: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-dm-serif-display)', ...defaultTheme.fontFamily.serif]
       }
     }
   },

@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-dm-serif-display);
     font-weight: 400;
   }
@@ -30,6 +35,9 @@
 @layer components {
   a {
     @apply transition-colors duration-300;
+  }
+  .btn {
+    @apply inline-flex items-center gap-1.5 py-2 px-4 rounded transition-colors duration-300 aria-disabled:pointer-events-none disabled:pointer-events-none;
   }
 }
 

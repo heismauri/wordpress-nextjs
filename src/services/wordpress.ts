@@ -1,6 +1,7 @@
 import { Ok, Err, Result } from 'ts-results-es';
 
-import { Post, Posts } from '@/types/post';
+import { Post, Posts } from '@/types/Post';
+import { WpTerm } from '@/types/WpTerm';
 
 const WORDPRESS_API_BASE_URL = `${process.env.WORDPRESS_URL}/wp-json/wp/v2`;
 
@@ -11,15 +12,16 @@ interface WordPressPostParams {
   slug?: string | null;
   sticky?: boolean;
   embed?: boolean;
+  categoryID?: number;
+  tagID?: number;
 }
 
-interface WordPressPageParams {
+interface WordPressParams {
   slug: string;
-  embed?: boolean;
 }
 
 const getPosts = async (
-  { page = 1, perPage = 1, search, slug, sticky, embed = true }: WordPressPostParams = {}
+  { page = 1, perPage = 1, search, slug, sticky, embed = true, categoryID, tagID }: WordPressPostParams = {}
 ): Promise<Result<Posts, Error>> => {
   try {
     const postsEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/posts`);
@@ -32,6 +34,8 @@ const getPosts = async (
     if (slug) postsParams.set('slug', slug);
     if (sticky) postsParams.set('sticky', '1');
     if (embed) postsParams.set('_embed', '1');
+    if (categoryID) postsParams.set('categories', categoryID.toString());
+    if (tagID) postsParams.set('tags', tagID.toString());
     postsEndpoint.search = postsParams.toString();
     const response = await fetch(postsEndpoint);
 
@@ -44,7 +48,7 @@ const getPosts = async (
   }
 };
 
-const getPage = async ({ slug }: WordPressPageParams): Promise<Result<Post, Error>> => {
+const getPage = async ({ slug }: WordPressParams): Promise<Result<Post, Error>> => {
   try {
     const pagesEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/pages`);
     pagesEndpoint.search = new URLSearchParams({
@@ -62,4 +66,21 @@ const getPage = async ({ slug }: WordPressPageParams): Promise<Result<Post, Erro
   }
 };
 
-export { getPosts, getPage };
+const getCategory = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>> => {
+  try {
+    const categoryEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/categories`);
+    categoryEndpoint.search = new URLSearchParams({
+      per_page: '1',
+      slug
+    }).toString();
+    const response = await fetch(categoryEndpoint);
+
+    const body = await response.json();
+    const [category] = body;
+    return Ok(category || null);
+  } catch {
+    return Err(new Error('Failed to fetch category'));
+  }
+}
+
+export { getPosts, getPage, getCategory };

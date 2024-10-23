@@ -1,3 +1,5 @@
+import { WpTerm } from '@/types/WpTerm';
+
 interface Author {
   id?: number;
   name?: string;
@@ -41,14 +43,6 @@ interface WpFeaturedmedia {
   mime_type?: string;
   media_details?: MediaDetails;
   source_url?: string;
-}
-
-interface WpTerm {
-  id: number;
-  link: string;
-  name: string;
-  slug: string;
-  taxonomy: 'category' | 'post_tag';
 }
 
 interface Embedded {
