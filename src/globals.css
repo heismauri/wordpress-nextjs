@@ -26,3 +26,16 @@
     @apply text-base;
   }
 }
+
+@layer components {
+  a {
+    @apply transition-colors duration-300;
+  }
+}
+
+/* WordPress core blocks */
+.prose {
+  .wp-embed-aspect-16-9 iframe {
+    @apply aspect-video w-full h-auto;
+  }
+}

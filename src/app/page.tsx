@@ -1,11 +1,15 @@
+import { Suspense } from 'react';
+
+import MainContainer from '@/components/MainContainer';
+import LatestPosts from '@/components/LatestPosts';
+
 const Home = () => {
   return (
-    <div className="p-8">
-      <h1>Next.js WordPress</h1>
-      <p className="mt-3">
-        This is a starter template for building a WordPress site with Next.js.
-      </p>
-    </div>
+    <MainContainer>
+      <Suspense fallback={<p>Loading feed...</p>}>
+        <LatestPosts />
+      </Suspense>
+    </MainContainer>
   );
 }
 
