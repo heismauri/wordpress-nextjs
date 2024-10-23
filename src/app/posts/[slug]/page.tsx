@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation'
-import { FolderOpenIcon, TagIcon } from '@heroicons/react/24/outline';
+import { FolderOpenIcon, TagIcon, UserIcon } from '@heroicons/react/24/outline';
 import { decode } from 'he';
 
 import { getPosts } from '@/services/wordpress';
@@ -34,21 +34,35 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
 
   const postCategories = post._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'category'));
   const postTags = post._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'post_tag'));
+  const [author] = post._embedded.author;
   return (
     <MainContainer>
       {post && (
         <>
-          <div className="grid md:grid-cols-2 gap-6 items-center">
+          <div className="grid md:grid-cols-2 gap-x-6 items-center">
             <div className="py-6">
+              {post.date && (
+                <div className="w-full text-sm text-center text-gray-500 mb-2">
+                  {new Date(post.date).toLocaleDateString()}
+                </div>
+              )}
               <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
               {postCategories && (
-                <div className="flex text-sm font-serif lowercase items-center gap-3 mt-3 text-gray-500">
+                <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
                   <FolderOpenIcon className="h-4 w-4 inline-block" />
                   {postCategories?.map((category) => (
                     <Link key={category.id} href={`/category/${category.slug}`} className="hover:text-red-500">
-                      {category.name}
+                      {decode(category.name)}
                     </Link>
                   ))}
+                </div>
+              )}
+              {author && author.name && (
+                <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
+                  <UserIcon className="h-4 w-4 inline-block" />
+                  <Link href={`/author/${author.slug}`} className="hover:text-red-500">
+                    {decode(author.name)}
+                  </Link>
                 </div>
               )}
             </div>
@@ -70,11 +84,11 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
               dangerouslySetInnerHTML={{ __html: post.content.rendered }}
             />
             {postTags && (
-              <div className="flex text-sm font-serif lowercase items-center gap-3 mt-3 text-gray-500">
+              <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-4 text-gray-500 flex-wrap">
                 <TagIcon className="h-4 w-4 inline-block" />
                 {postTags?.map((tag) => (
                   <Link key={tag.id} href={`/tag/${tag.slug}`} className="hover:text-red-500">
-                    {tag.name}
+                    {decode(tag.name)}
                   </Link>
                 ))}
               </div>

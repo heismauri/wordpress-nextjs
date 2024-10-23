@@ -100,4 +100,21 @@ const getTag = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>>
   }
 }
 
-export { getPosts, getPage, getCategory, getTag };
+const getAuthor = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>> => {
+  try {
+    const authorEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/users`);
+    authorEndpoint.search = new URLSearchParams({
+      per_page: '1',
+      slug
+    }).toString();
+    const response = await fetch(authorEndpoint);
+
+    const body = await response.json();
+    const [author] = body;
+    return Ok(author || null);
+  } catch {
+    return Err(new Error('Failed to fetch author'));
+  }
+}
+
+export { getPosts, getPage, getCategory, getTag, getAuthor };

@@ -1,6 +1,7 @@
 export interface WpTerm {
   id: number;
   name: string;
+  description?: string;
   slug: string;
   taxonomy: 'category' | 'post_tag';
 }
