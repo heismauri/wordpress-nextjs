@@ -19,7 +19,7 @@ const RelatedPosts = async ({ postId, categoryId }: RelatedPostsProps) => {
   }
 
   return (
-    <div className="mt-6">
+    <div className="border-t mt-6 pt-4">
       <h2 className="lowercase mb-6">Related Posts</h2>
       <PaginatedPosts count={2} posts={relatedPosts} />
     </div>

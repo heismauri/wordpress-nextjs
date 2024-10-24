@@ -28,7 +28,7 @@ const Loading = () => {
             `}
           </style>
           <g className="spinner_V8m1">
-            <circle cx="12" cy="12" r="9.5" fill="none" strokeWidth="3" />
+            <circle cx="12" cy="12" r="9.5" fill="none" strokeWidth="1" />
           </g>
         </svg>
       </div>

@@ -62,7 +62,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
       {totalPages > 1 && baseURL && currentPage && (
         <div className="grid grid-cols-3 gap-6 mt-6">
           <div className="sr-only">Pagination</div>
-          <div className="text-left font-serif">
+          <div className="text-left font-serif lowercase">
             <Link
               href={currentPage === 2 ? baseURL : `${baseURL}/page/${currentPage - 1}`}
               className="btn p-0 hover:text-red-500 aria-disabled:text-gray-300"
@@ -75,7 +75,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
           <div className="text-center">
             {currentPage} / {totalPages}
           </div>
-          <div className="text-right font-serif">
+          <div className="text-right font-serif lowercase">
             <Link
               href={`${baseURL}/page/${currentPage + 1}`}
               className="btn p-0 hover:text-red-500 aria-disabled:text-gray-300"
