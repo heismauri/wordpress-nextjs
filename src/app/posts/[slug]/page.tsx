@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation'
@@ -6,6 +7,8 @@ import { decode } from 'he';
 
 import { getPosts } from '@/services/wordpress';
 import MainContainer from '@/components/MainContainer';
+import RelatedPosts from '@/components/RelatedPosts';
+import SuspenseRelatedPosts from '@/components/SuspenseRelatedPosts';
 
 export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
   const result = await getPosts({ slug });
@@ -94,6 +97,11 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
               </div>
             )}
           </div>
+          {postCategories && postCategories[0] && (
+            <Suspense fallback={<SuspenseRelatedPosts />}>
+              <RelatedPosts postId={post.id} categoryId={postCategories[0].id} />
+            </Suspense>
+          )}
         </>
       )}
     </MainContainer>
