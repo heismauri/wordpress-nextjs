@@ -1,59 +1,65 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid';
+import { BookOpenIcon } from '@heroicons/react/24/outline';
 
 import { Posts } from '@/types/Post';
 import getReadingTime from '@/utils/getReadingTime';
 import getTextFromHTML from '@/utils/getTextFromHTML';
 
 interface PaginatedPostsProps extends Posts {
-  baseURL: string;
-  currentPage: number;
+  baseURL?: string;
+  currentPage?: number;
 }
 
 const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsProps) => {
   const totalPages = Math.ceil(count / 10);
   return (
     <>
-      <div className="grid grid-cols-2 gap-6">
-        {posts.map((post) => (
-          <Link
-            key={post.id}
-            href={`/posts/${post.slug}`}
-            className="group"
-            prefetch
-            scroll
-          >
-            <div className="grid gap-6 grid-flow-col">
-              {post._embedded['wp:featuredmedia'] &&
-                post._embedded['wp:featuredmedia'][0]?.source_url && (
-                  <Image
-                    src={post._embedded['wp:featuredmedia'][0].source_url}
-                    alt={post.title.rendered}
-                    width={600}
-                    height={400}
-                    className="w-48 aspect-square object-cover flex-grow"
-                  />
-                )}
-              <div>
-                <div className="text-sm">
-                  {new Date(post.date).toLocaleDateString()} •{' '}
-                  {post._embedded.author.map((a) => a.name).join(', ')}
+      <div className="grid md:grid-cols-2 gap-6">
+        {posts.map((post) => {
+          const thumbnail = post._embedded['wp:featuredmedia']?.[0]?.source_url;
+          return (
+            <Link
+              key={post.id}
+              href={`/posts/${post.slug}`}
+              className="group"
+              prefetch
+              scroll
+            >
+              <div className="grid gap-6 grid-cols-3">
+                <div>
+                  {thumbnail ? (
+                    <Image
+                      src={thumbnail}
+                      alt={post.title.rendered}
+                      width={600}
+                      height={400}
+                      className="w-full aspect-square object-cover flex-grow"
+                    />
+                  ) : (
+                    <div className="bg-gray-100 pb-[100%] animate-pulse" />
+                  )}
                 </div>
-                <h4
-                  className="text-balance mb-3 group-hover:text-red-500 transition-colors duration-300"
-                  dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                />
-                <div className="text-xs uppercase">
-                  {getReadingTime(getTextFromHTML(post.content.rendered))} min
-                  read
+                <div className="col-span-2">
+                  <div className="text-sm text-gray-500">
+                    {new Date(post.date).toLocaleDateString()}
+                  </div>
+                  <h4
+                    className="text-balance mb-2 group-hover:text-red-500 transition-colors duration-300"
+                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                  />
+                  <div className="flex text-sm font-serif lowercase items-center gap-x-3 text-gray-500">
+                    <BookOpenIcon className="h-4 w-4 inline-block" />
+                    {getReadingTime(getTextFromHTML(post.content.rendered))} min read
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          )
+        })}
       </div>
-      {totalPages > 1 && (
+      {totalPages > 1 && baseURL && currentPage && (
         <div className="grid grid-cols-3 gap-6 mt-6">
           <div className="sr-only">Pagination</div>
           <div className="text-left font-serif">
