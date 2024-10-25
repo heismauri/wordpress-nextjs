@@ -4,6 +4,7 @@ export interface WpTerm {
   description?: string;
   slug: string;
   taxonomy: 'category' | 'post_tag';
+  parent: number;
 }
 
 export interface WpTerms {

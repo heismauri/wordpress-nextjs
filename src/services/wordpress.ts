@@ -12,6 +12,7 @@ interface WordPressPostParams {
   slug?: string | null;
   sticky?: boolean;
   embed?: boolean;
+  exclude?: number;
   categoryId?: number;
   tagId?: number;
   authorId?: number;
@@ -28,6 +29,7 @@ const getPosts = async ({
   slug,
   sticky,
   embed = true,
+  exclude,
   categoryId,
   tagId,
   authorId
@@ -43,6 +45,7 @@ const getPosts = async ({
     if (slug) postsParams.set('slug', slug);
     if (sticky) postsParams.set('sticky', '1');
     if (embed) postsParams.set('_embed', '1');
+    if (exclude) postsParams.set('exclude', exclude.toString());
     if (categoryId) postsParams.set('categories', categoryId.toString());
     if (tagId) postsParams.set('tags', tagId.toString());
     if (authorId) postsParams.set('author', authorId.toString());
