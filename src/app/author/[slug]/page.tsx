@@ -1,20 +1,25 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
 import { getPosts, getAuthor } from '@/services/wordpress';
+import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
   const result = await getAuthor({ slug });
+  const metadata: Metadata = {}
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
-      return {
-        title: decode(data.name)
-      };
+      const description = data.description || ''
+
+      metadata.title = decode(data.name);
+      if (description.trim().length !== 0) metadata.description = getExcerpt(decode(description));
     }
   }
+  return metadata;
 }
 
 const SingleAuthor = async ({ params: { slug, page } } : { params: { slug: string, page?: string } }) => {

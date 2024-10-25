@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation'
@@ -7,21 +8,26 @@ import { decode } from 'he';
 import { clsx } from 'clsx';
 
 import { getPosts } from '@/services/wordpress';
+import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import RelatedPosts from '@/components/RelatedPosts';
 import SuspenseRelatedPosts from '@/components/SuspenseRelatedPosts';
 
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
   const result = await getPosts({ slug });
+  const metadata: Metadata = {}
   if (result.isOk()) {
     const data = result.unwrap();
     const [post] = data.posts;
     if (post) {
-      return {
-        title: decode(post.title.rendered)
-      };
+      const thumbnail = post._embedded['wp:featuredmedia']?.[0]?.source_url;
+
+      metadata.title = decode(post.title.rendered);
+      metadata.description = getExcerpt(decode(post.excerpt.rendered));
+      if (thumbnail) metadata.openGraph = { images: [{ url: thumbnail }] };
     }
   }
+  return metadata;
 }
 
 const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) => {
