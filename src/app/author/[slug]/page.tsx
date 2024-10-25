@@ -38,7 +38,7 @@ const SingleAuthor = async ({ params: { slug, page } } : { params: { slug: strin
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
-        Author: <span className="font-sans underline underline-offset-2 decoration-red-500">{author.name}</span>
+        Author: <span className="font-sans underline underline-offset-2 decoration-lime-500">{author.name}</span>
       </h1>
       {(author?.description || '').trim().length !== 0 && (
         <p className="text-pretty mb-6">{author.description}</p>

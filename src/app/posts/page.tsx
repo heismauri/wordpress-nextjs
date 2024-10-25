@@ -1,27 +1,49 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation'
 
 import { getPosts } from '@/services/wordpress';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
 export const metadata: Metadata = {
-  title: 'Posts',
-  description: 'All the latest posts from WordPress Next.js'
+  title: 'Posts'
 };
 
-const Posts = async ({ params: { page } } : { params: { page?: string } }) => {
+const Posts = async ({
+  params: { page },
+  searchParams
+}: {
+  params: { page?: string };
+  searchParams: Promise<{ search: string }>;
+}) => {
+  const { search } = await searchParams;
   const currentPage = parseInt(page || '1', 10);
-  const result = await getPosts({ page: currentPage, perPage: 10 });
+  const result = await getPosts({ page: currentPage, perPage: 10, search });
   if (result.isErr()) {
     throw new Error(result.unwrapErr().message);
   }
 
   const { count, posts } = result.unwrap();
+  const encodedSearch = search ? `?search=${encodeURIComponent(search)}` : '';
+  if (currentPage > 1 && count === 0) {
+    return redirect(`/posts${encodedSearch}`);
+  }
   return (
     <MainContainer>
-      <PaginatedPosts count={count} posts={posts} baseURL="/posts" currentPage={currentPage} />
+      {search && (
+        <h1 className="mb-6 lowercase">
+          Results for: <span className="font-sans underline underline-offset-2 decoration-lime-500">{search}</span>
+        </h1>
+      )}
+      <PaginatedPosts
+        count={count}
+        posts={posts}
+        baseURL="/posts"
+        currentPage={currentPage}
+        encodedSearch={encodedSearch}
+      />
     </MainContainer>
   );
-}
+};
 
 export default Posts;

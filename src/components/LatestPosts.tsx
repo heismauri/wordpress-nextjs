@@ -21,7 +21,7 @@ const LatestPosts = async () => {
         {firstPost && (
           <div className="flex col-span-2 gap-6 border-r pr-6">
             <div>
-              <Link href={`/posts/${firstPost.slug}`} className="w-1/2 hover:text-red-500" prefetch scroll>
+              <Link href={`/posts/${firstPost.slug}`} className="w-1/2 hover:text-lime-500" prefetch scroll>
                 <h2 className="text-4xl text-balance" dangerouslySetInnerHTML={{ __html: firstPost.title.rendered }} />
               </Link>
               <p className="mt-6">{getExcerpt(decode(firstPost.excerpt.rendered))}</p>
@@ -43,7 +43,7 @@ const LatestPosts = async () => {
               <div className="text-sm">
                 {new Date(post.date).toLocaleDateString()} • {post._embedded.author.map((a) => a.name).join(', ')}
               </div>
-              <Link href={`/posts/${post.slug}`} className="hover:text-red-500" prefetch scroll>
+              <Link href={`/posts/${post.slug}`} className="hover:text-lime-500" prefetch scroll>
                 <h4 className="text-balance" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
               </Link>
               <div className="uppercase">{getReadingTime(getTextFromHTML(post.content.rendered))} min read</div>

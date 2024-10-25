@@ -10,9 +10,10 @@ import getTextFromHTML from '@/utils/getTextFromHTML';
 interface PaginatedPostsProps extends Posts {
   baseURL?: string;
   currentPage?: number;
+  encodedSearch?: string;
 }
 
-const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsProps) => {
+const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = '' }: PaginatedPostsProps) => {
   const totalPages = Math.ceil(count / 10);
   return (
     <>
@@ -28,8 +29,8 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
               scroll
             >
               <div className="grid gap-6 grid-cols-3">
-                <div>
-                  {thumbnail ? (
+                {thumbnail && (
+                  <div>
                     <Image
                       src={thumbnail}
                       alt={post.title.rendered}
@@ -37,16 +38,14 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
                       height={400}
                       className="w-full aspect-square object-cover flex-grow"
                     />
-                  ) : (
-                    <div className="bg-gray-100 pb-[100%] animate-pulse" />
-                  )}
-                </div>
-                <div className="col-span-2">
+                  </div>
+                )}
+                <div className={thumbnail ? 'col-span-2' : 'col-span-3'}>
                   <div className="text-sm text-gray-500">
                     {new Date(post.date).toLocaleDateString()}
                   </div>
                   <h4
-                    className="text-balance mb-2 group-hover:text-red-500 transition-colors duration-300"
+                    className="text-balance mb-2 group-hover:text-lime-500 transition-colors duration-300"
                     dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                   />
                   <div className="flex text-sm font-serif lowercase items-center gap-x-3 text-gray-500">
@@ -64,8 +63,8 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
           <div className="sr-only">Pagination</div>
           <div className="text-left font-serif lowercase">
             <Link
-              href={currentPage === 2 ? baseURL : `${baseURL}/page/${currentPage - 1}`}
-              className="btn p-0 hover:text-red-500 aria-disabled:text-gray-300"
+              href={`${currentPage === 2 ? baseURL : `${baseURL}/page/${currentPage - 1}`}${encodedSearch}`}
+              className="btn p-0 hover:text-lime-500 aria-disabled:opacity-0"
               aria-disabled={currentPage === 1}
             >
               <ArrowLongLeftIcon className="w-5 h-5" />
@@ -77,8 +76,8 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage }: PaginatedPostsPr
           </div>
           <div className="text-right font-serif lowercase">
             <Link
-              href={`${baseURL}/page/${currentPage + 1}`}
-              className="btn p-0 hover:text-red-500 aria-disabled:text-gray-300"
+              href={`${baseURL}/page/${currentPage + 1}${encodedSearch}`}
+              className="btn p-0 hover:text-lime-500 aria-disabled:opacity-0"
               aria-disabled={currentPage === totalPages}
             >
               Next

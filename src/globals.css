@@ -9,8 +9,7 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-dm-serif-display);
-    font-weight: 400;
+    @apply font-serif font-normal;
   }
   h1 {
     @apply text-4xl;
@@ -42,8 +41,34 @@
 }
 
 /* WordPress core blocks */
-.prose {
-  .wp-embed-aspect-16-9 iframe {
-    @apply aspect-video w-full h-auto;
-  }
+.prose wp-embed-aspect-16-9 iframe {
+  @apply aspect-video w-full h-auto;
+}
+
+.prose img {
+  @apply max-w-full h-auto inline my-5;
+}
+
+.prose a img {
+  @apply transition-opacity duration-300;
+}
+
+.prose a img:hover {
+  @apply opacity-70;
+}
+
+.prose img.aligncenter {
+  @apply mx-auto;
+}
+
+.prose img.alignleft {
+  @apply float-left mr-4;
+}
+
+.prose img.alignright {
+  @apply float-right ml-4;
+}
+
+.prose iframe[src*="youtube.com"] {
+  @apply max-w-full aspect-video h-auto;
 }

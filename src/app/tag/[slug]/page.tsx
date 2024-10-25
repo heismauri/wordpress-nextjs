@@ -38,8 +38,11 @@ const SingleTag = async ({ params: { slug, page } } : { params: { slug: string, 
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
-        Category: <span className="font-sans underline underline-offset-2 decoration-red-500">{tag.name}</span>
+        Tag: <span className="font-sans underline underline-offset-2 decoration-lime-500">{tag.name}</span>
       </h1>
+      {(tag?.description || '').trim().length !== 0 && (
+        <p className="text-pretty mb-6">{tag.description}</p>
+      )}
       <PaginatedPosts count={count} posts={posts} baseURL={`/tag/${slug}`} currentPage={currentPage} />
     </MainContainer>
   );

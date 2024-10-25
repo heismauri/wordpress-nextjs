@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation'
 import { FolderOpenIcon, TagIcon, UserIcon } from '@heroicons/react/24/outline';
 import { decode } from 'he';
+import { clsx } from 'clsx';
 
 import { getPosts } from '@/services/wordpress';
 import MainContainer from '@/components/MainContainer';
@@ -35,26 +36,27 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
     return notFound();
   }
 
-  const postCategories = post._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'category'));
-  const postTags = post._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'post_tag'));
+  const categories = post._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'category'));
+  const tags = post._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'post_tag'));
   const [author] = post._embedded.author;
+  const thumbnail = post._embedded['wp:featuredmedia']?.[0]?.source_url;
   return (
     <MainContainer>
       {post && (
         <>
-          <div className="grid md:grid-cols-2 gap-x-6 items-center">
-            <div className="py-6">
+          <div className="grid md:grid-cols-2 gap-x-6 items-center justify-items-center">
+            <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2', 'w-full py-6')}>
               {post.date && (
                 <div className="w-full text-sm text-center text-gray-500 mb-2">
                   {new Date(post.date).toLocaleDateString()}
                 </div>
               )}
-              <h1 dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-              {postCategories && (
+              <h1 className="text-pretty" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
+              {categories && (
                 <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
                   <FolderOpenIcon className="h-4 w-4 inline-block" />
-                  {postCategories?.map((category) => (
-                    <Link key={category.id} href={`/category/${category.slug}`} className="hover:text-red-500">
+                  {categories?.map((category) => (
+                    <Link key={category.id} href={`/category/${category.slug}`} className="hover:text-lime-500">
                       {decode(category.name)}
                     </Link>
                   ))}
@@ -63,19 +65,19 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
               {author && author.name && (
                 <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
                   <UserIcon className="h-4 w-4 inline-block" />
-                  <Link href={`/author/${author.slug}`} className="hover:text-red-500">
+                  <Link href={`/author/${author.slug}`} className="hover:text-lime-500">
                     {decode(author.name)}
                   </Link>
                 </div>
               )}
             </div>
-            {post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]?.source_url && (
+            {thumbnail && (
               <Image
-                src={post._embedded['wp:featuredmedia'][0].source_url}
+                src={thumbnail}
                 alt={post.title.rendered}
                 width={540}
                 height={300}
-                className="mx-auto"
+                className="max-w-full w-auto h-auto mx-auto"
                 priority
               />
             )}
@@ -83,23 +85,23 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
           <div className="border-t my-6" />
           <div className="max-w-3xl mx-auto mt-6">
             <div
-              className="prose prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline"
+              className="prose prose-a:text-lime-500 prose-a:no-underline hover:prose-a:underline"
               dangerouslySetInnerHTML={{ __html: post.content.rendered }}
             />
-            {postTags && (
+            {tags && (
               <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-4 text-gray-500 flex-wrap">
                 <TagIcon className="h-4 w-4 inline-block" />
-                {postTags?.map((tag) => (
-                  <Link key={tag.id} href={`/tag/${tag.slug}`} className="hover:text-red-500">
+                {tags?.map((tag) => (
+                  <Link key={tag.id} href={`/tag/${tag.slug}`} className="hover:text-lime-500">
                     {decode(tag.name)}
                   </Link>
                 ))}
               </div>
             )}
           </div>
-          {postCategories && postCategories[0] && (
+          {categories && categories[0] && (
             <Suspense fallback={<SuspenseRelatedPosts />}>
-              <RelatedPosts postId={post.id} categoryId={postCategories[0].id} />
+              <RelatedPosts postId={post.id} categoryId={categories[0].id} />
             </Suspense>
           )}
         </>
