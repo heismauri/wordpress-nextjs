@@ -1,6 +1,7 @@
 import { Ok, Err, Result } from 'ts-results-es';
 
-import { Post, Posts } from '@/types/Post';
+import { Posts } from '@/types/Post';
+import { Page } from '@/types/Page';
 import { WpTerm } from '@/types/WpTerm';
 
 const WORDPRESS_API_BASE_URL = `${process.env.WORDPRESS_URL}/wp-json/wp/v2`;
@@ -61,7 +62,7 @@ const getPosts = async ({
   }
 };
 
-const getPage = async ({ slug }: WordPressParams): Promise<Result<Post, Error>> => {
+const getPage = async ({ slug }: WordPressParams): Promise<Result<Page, Error>> => {
   try {
     const pagesEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/pages`);
     pagesEndpoint.search = new URLSearchParams({

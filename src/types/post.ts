@@ -45,13 +45,13 @@ interface WpFeaturedmedia {
   source_url?: string;
 }
 
-interface Embedded {
+export interface Embedded {
   author: Author[];
   'wp:featuredmedia'?: WpFeaturedmedia[];
   'wp:term': Array<WpTerm[]>;
 }
 
-interface Post {
+export interface Post {
   id: number;
   date: string;
   slug: string;
@@ -61,9 +61,7 @@ interface Post {
   _embedded: Embedded;
 }
 
-interface Posts {
+export interface Posts {
   count: number;
   posts: Post[];
 }
-
-export type { Post, Posts };
