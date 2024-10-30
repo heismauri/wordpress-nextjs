@@ -1,4 +1,4 @@
-import { Post, Embedded } from '@/types/post';
+import { Post, Embedded } from '@/types/Post';
 
 interface PageEmbedded extends Embedded {
   up: Up[];
