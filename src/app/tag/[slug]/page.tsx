@@ -1,20 +1,25 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
 import { getPosts, getTag } from '@/services/wordpress';
+import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }) {
+export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
   const result = await getTag({ slug });
+  const metadata: Metadata = {}
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
-      return {
-        title: decode(data.name)
-      };
+      const description = data.description || ''
+
+      metadata.title = decode(data.name);
+      if (description.trim().length !== 0) metadata.description = getExcerpt(decode(description));
     }
   }
+  return metadata;
 }
 
 const SingleTag = async ({ params: { slug, page } } : { params: { slug: string, page?: string } }) => {
@@ -38,10 +43,14 @@ const SingleTag = async ({ params: { slug, page } } : { params: { slug: string, 
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
-        Tag: <span className="font-sans underline underline-offset-2 decoration-lime-500">{tag.name}</span>
+        Tag:{' '}
+        <span
+          className="font-sans underline underline-offset-2 decoration-lime-500"
+          dangerouslySetInnerHTML={{ __html: tag.name }}
+        />
       </h1>
-      {(tag?.description || '').trim().length !== 0 && (
-        <p className="text-pretty mb-6">{tag.description}</p>
+      {tag?.description && tag.description.trim().length !== 0 && (
+        <p className="text-pretty mb-6" dangerouslySetInnerHTML={{ __html: tag.description }} />
       )}
       <PaginatedPosts count={count} posts={posts} baseURL={`/tag/${slug}`} currentPage={currentPage} />
     </MainContainer>

@@ -80,9 +80,9 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
             {thumbnail && (
               <Image
                 src={thumbnail}
-                alt={post.title.rendered}
+                alt={decode(post.title.rendered)}
                 width={540}
-                height={300}
+                height={310}
                 className="max-w-full w-auto h-auto mx-auto"
                 priority
               />

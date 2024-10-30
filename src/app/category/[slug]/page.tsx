@@ -43,10 +43,14 @@ const SingleCategory = async ({ params: { slug, page } } : { params: { slug: str
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
-        Category: <span className="font-sans underline underline-offset-2 decoration-lime-500">{category.name}</span>
+        Category:{' '}
+        <span
+          className="font-sans underline underline-offset-2 decoration-lime-500"
+          dangerouslySetInnerHTML={{ __html: category.name }}
+        />
       </h1>
-      {(category?.description || '').trim().length !== 0 && (
-        <p className="text-pretty mb-6">{category.description}</p>
+      {category?.description && category.description.trim().length !== 0 && (
+        <p className="text-pretty mb-6" dangerouslySetInnerHTML={{ __html: category.description }} />
       )}
       <PaginatedPosts count={count} posts={posts} baseURL={`/category/${slug}`} currentPage={currentPage} />
     </MainContainer>

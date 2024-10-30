@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid';
 import { BookOpenIcon } from '@heroicons/react/24/outline';
+import { decode } from 'he';
 
 import { Posts } from '@/types/Post';
 import getReadingTime from '@/utils/getReadingTime';
@@ -19,6 +20,10 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
     <>
       <div className="grid md:grid-cols-2 gap-6">
         {posts.map((post) => {
+          const categories = post._embedded['wp:term'].find((terms) => {
+            return terms.find((term) => term.taxonomy === 'category')
+          });
+          const firstCategory = categories?.[0];
           const thumbnail = post._embedded['wp:featuredmedia']?.[0]?.source_url;
           return (
             <Link
@@ -33,17 +38,19 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
                   <div>
                     <Image
                       src={thumbnail}
-                      alt={post.title.rendered}
-                      width={600}
-                      height={400}
+                      alt={decode(post.title.rendered)}
+                      width={170}
+                      height={170}
                       className="w-full aspect-square object-cover flex-grow"
                     />
                   </div>
                 )}
                 <div className={thumbnail ? 'col-span-2' : 'col-span-3'}>
-                  <div className="text-sm text-gray-500">
-                    {new Date(post.date).toLocaleDateString()}
-                  </div>
+                  {firstCategory && (
+                    <div className="text-sm font-serif lowercase text-lime-500">
+                      {decode(firstCategory.name)}
+                    </div>
+                  )}
                   <h4
                     className="text-balance mb-2 group-hover:text-lime-500 transition-colors duration-300"
                     dangerouslySetInnerHTML={{ __html: post.title.rendered }}

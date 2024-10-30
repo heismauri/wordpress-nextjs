@@ -43,10 +43,14 @@ const SingleAuthor = async ({ params: { slug, page } } : { params: { slug: strin
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
-        Author: <span className="font-sans underline underline-offset-2 decoration-lime-500">{author.name}</span>
+        Author:{' '}
+        <span
+          className="font-sans underline underline-offset-2 decoration-lime-500"
+          dangerouslySetInnerHTML={{ __html: author.name }}
+        />
       </h1>
-      {(author?.description || '').trim().length !== 0 && (
-        <p className="text-pretty mb-6">{author.description}</p>
+      {author?.description && author.description.trim().length !== 0 && (
+        <p className="text-pretty mb-6" dangerouslySetInnerHTML={{ __html: author.description }} />
       )}
       <PaginatedPosts count={count} posts={posts} baseURL={`/author/${slug}`} currentPage={currentPage} />
     </MainContainer>
