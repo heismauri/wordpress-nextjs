@@ -2,27 +2,29 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
+import { PaginatedRouteWithSlug } from '@/types/PaginatedRoute';
 import { getPosts, getCategory } from '@/services/wordpress';
 import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
+export const generateMetadata = async ({ params: { slug, page } }: PaginatedRouteWithSlug): Promise<Metadata> => {
   const result = await getCategory({ slug });
   const metadata: Metadata = {}
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
+      const currentPage = parseInt(page || '1', 10);
       const description = data.description || ''
 
-      metadata.title = decode(data.name);
+      metadata.title = currentPage > 1 ? `${decode(data.name)} – Page ${currentPage}` : decode(data.name);
       if (description.trim().length !== 0) metadata.description = getExcerpt(decode(description));
     }
   }
   return metadata;
 }
 
-const SingleCategory = async ({ params: { slug, page } } : { params: { slug: string, page?: string } }) => {
+const SingleCategory = async ({ params: { slug, page } } : PaginatedRouteWithSlug) => {
   const currentPage = parseInt(page || '1', 10);
   const categoryResult = await getCategory({ slug });
   if (!categoryResult.isOk()) {

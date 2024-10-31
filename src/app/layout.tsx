@@ -20,7 +20,7 @@ const dmSerfilDisplay = DM_Serif_Display({
 export const metadata: Metadata = {
   title: {
     default: 'WordPress Next.js',
-    template: '%s | WordPress Next.js'
+    template: '%s – WordPress Next.js'
   },
   description: 'A WordPress Next.js starter template'
 };

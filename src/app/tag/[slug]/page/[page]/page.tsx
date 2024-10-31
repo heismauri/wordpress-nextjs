@@ -1,3 +1,5 @@
-import SingleTag from '@/app/tag/[slug]/page';
+import SingleTag, { generateMetadata } from '@/app/tag/[slug]/page';
+
+export { generateMetadata };
 
 export default SingleTag;

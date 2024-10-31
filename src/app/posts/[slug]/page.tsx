@@ -13,7 +13,7 @@ import MainContainer from '@/components/MainContainer';
 import RelatedPosts from '@/components/RelatedPosts';
 import SuspenseRelatedPosts from '@/components/SuspenseRelatedPosts';
 
-export async function generateMetadata({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> {
+export const generateMetadata = async ({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> => {
   const result = await getPosts({ slug });
   const metadata: Metadata = {}
   if (result.isOk()) {

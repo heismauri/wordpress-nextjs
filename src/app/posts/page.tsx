@@ -1,21 +1,25 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation'
 
+import { PaginatedRouteWithSearch } from '@/types/PaginatedRoute';
 import { getPosts } from '@/services/wordpress';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export const metadata: Metadata = {
-  title: 'Posts'
-};
+export const generateMetadata = async (
+  { params: { page }, searchParams }: PaginatedRouteWithSearch
+): Promise<Metadata> => {
+  const { search } = await searchParams;
+  const currentPage = parseInt(page || '1', 10);
+  const mainTitle = search ? `Results for: "${search}"` : 'Posts';
 
-const Posts = async ({
-  params: { page },
-  searchParams
-}: {
-  params: { page?: string };
-  searchParams: Promise<{ search: string }>;
-}) => {
+  const metadata: Metadata = {}
+  metadata.title = currentPage > 1 ? `${mainTitle} – Page ${currentPage}` : mainTitle;
+
+  return metadata;
+}
+
+const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearch) => {
   const { search } = await searchParams;
   const currentPage = parseInt(page || '1', 10);
   const result = await getPosts({ page: currentPage, perPage: 10, search });

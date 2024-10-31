@@ -1,3 +1,5 @@
-import Posts from '@/app/posts/page';
+import Posts, { generateMetadata } from '@/app/posts/page';
+
+export { generateMetadata };
 
 export default Posts;
