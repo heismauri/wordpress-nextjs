@@ -58,6 +58,7 @@ export interface Post {
   title: { rendered: string };
   content: { rendered: string };
   excerpt: { rendered: string };
+  type: 'post';
   _embedded: Embedded;
 }
 

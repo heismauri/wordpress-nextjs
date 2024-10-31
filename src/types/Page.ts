@@ -9,7 +9,8 @@ interface Up {
   slug: string;
 }
 
-export interface Page extends Omit<Post, '_embedded'> {
+export interface Page extends Omit<Post, 'type' | '_embedded'> {
+  type: 'page';
   parent: number;
   _embedded: PageEmbedded;
 }
