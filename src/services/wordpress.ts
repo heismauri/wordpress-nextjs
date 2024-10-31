@@ -21,6 +21,7 @@ interface WordPressPostParams {
 
 interface WordPressParams {
   slug: string;
+  parent?: number;
 }
 
 const getPosts = async ({
@@ -62,13 +63,14 @@ const getPosts = async ({
   }
 };
 
-const getPage = async ({ slug }: WordPressParams): Promise<Result<Page, Error>> => {
+const getPage = async ({ slug, parent = 0 }: WordPressParams): Promise<Result<Page, Error>> => {
   try {
     const pagesEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/pages`);
     pagesEndpoint.search = new URLSearchParams({
       _embed: '1',
       per_page: '1',
-      slug
+      slug,
+      parent: parent.toString()
     }).toString();
     const response = await fetch(pagesEndpoint);
 
