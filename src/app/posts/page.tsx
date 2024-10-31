@@ -37,7 +37,7 @@ const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearc
     <MainContainer>
       {search && (
         <h1 className="mb-6 lowercase">
-          Results for: <span className="font-sans underline underline-offset-2 decoration-lime-500">{search}</span>
+          Results for: <span className="font-sans underline underline-offset-2 decoration-rose-600">{search}</span>
         </h1>
       )}
       <PaginatedPosts

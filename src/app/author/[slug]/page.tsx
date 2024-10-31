@@ -47,7 +47,7 @@ const SingleAuthor = async ({ params: { slug, page } } : PaginatedRouteWithSlug)
       <h1 className="mb-6 lowercase">
         Author:{' '}
         <span
-          className="font-sans underline underline-offset-2 decoration-lime-500"
+          className="font-sans underline underline-offset-2 decoration-rose-600"
           dangerouslySetInnerHTML={{ __html: author.name }}
         />
       </h1>

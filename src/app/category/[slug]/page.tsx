@@ -47,7 +47,7 @@ const SingleCategory = async ({ params: { slug, page } } : PaginatedRouteWithSlu
       <h1 className="mb-6 lowercase">
         Category:{' '}
         <span
-          className="font-sans underline underline-offset-2 decoration-lime-500"
+          className="font-sans underline underline-offset-2 decoration-rose-600"
           dangerouslySetInnerHTML={{ __html: category.name }}
         />
       </h1>

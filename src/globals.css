@@ -42,7 +42,7 @@
 
 /* WordPress core blocks */
 .prose wp-embed-aspect-16-9 iframe {
-  @apply aspect-video w-full h-auto;
+  @apply max-w-full aspect-video w-full h-auto;
 }
 
 .prose img {

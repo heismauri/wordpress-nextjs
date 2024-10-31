@@ -53,7 +53,7 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
           <div className="grid md:grid-cols-2 gap-x-6 items-center justify-items-center">
             <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2', 'w-full py-6')}>
               {post.date && (
-                <div className="w-full text-sm text-center text-gray-500 mb-2">
+                <div className="w-full text-sm text-center text-rose-600 mb-2">
                   {new Date(post.date).toLocaleDateString()}
                 </div>
               )}
@@ -62,7 +62,7 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
                 <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
                   <FolderOpenIcon className="h-4 w-4 inline-block" />
                   {categories?.map((category) => (
-                    <Link key={category.id} href={`/category/${category.slug}`} className="hover:text-lime-500">
+                    <Link key={category.id} href={`/category/${category.slug}`} className="hover:text-rose-600">
                       {decode(category.name)}
                     </Link>
                   ))}
@@ -71,7 +71,7 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
               {author && author.name && (
                 <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
                   <UserIcon className="h-4 w-4 inline-block" />
-                  <Link href={`/author/${author.slug}`} className="hover:text-lime-500">
+                  <Link href={`/author/${author.slug}`} className="hover:text-rose-600">
                     {decode(author.name)}
                   </Link>
                 </div>
@@ -81,7 +81,7 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
               <div
                 className={clsx(
                   'relative before:block before:absolute before:top-0 before:right-0 before:border-[1.5rem]',
-                  'before:border-transparent before:border-r-white before:border-t-white'
+                  'before:border-transparent before:border-r-rose-600 before:border-t-rose-600'
                 )}
               >
                 <Image
@@ -89,7 +89,7 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
                   alt={decode(post.title.rendered)}
                   width={540}
                   height={310}
-                  className="max-w-full w-auto h-auto mx-auto bg-lime-200"
+                  className="max-w-full w-auto h-auto mx-auto bg-rose-200"
                   priority
                 />
               </div>
@@ -98,14 +98,14 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
           <div className="border-t my-6" />
           <div className="max-w-3xl mx-auto mt-6">
             <div
-              className="prose prose-a:text-lime-500 prose-a:no-underline hover:prose-a:underline"
+              className="prose prose-a:text-rose-600 prose-a:no-underline hover:prose-a:underline"
               dangerouslySetInnerHTML={{ __html: post.content.rendered }}
             />
             {tags && (
               <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-4 text-gray-500 flex-wrap">
                 <TagIcon className="h-4 w-4 inline-block" />
                 {tags?.map((tag) => (
-                  <Link key={tag.id} href={`/tag/${tag.slug}`} className="hover:text-lime-500">
+                  <Link key={tag.id} href={`/tag/${tag.slug}`} className="hover:text-rose-600">
                     {decode(tag.name)}
                   </Link>
                 ))}

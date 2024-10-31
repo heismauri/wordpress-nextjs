@@ -41,18 +41,18 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
                       alt={decode(post.title.rendered)}
                       width={170}
                       height={170}
-                      className="w-full aspect-square object-cover flex-grow bg-lime-200"
+                      className="w-full aspect-square object-cover flex-grow bg-rose-200"
                     />
                   </div>
                 )}
                 <div className={thumbnail ? 'col-span-2' : 'col-span-3'}>
                   {firstCategory && (
-                    <div className="text-sm font-serif lowercase text-lime-500">
+                    <div className="text-sm font-serif lowercase text-rose-600">
                       {decode(firstCategory.name)}
                     </div>
                   )}
                   <h4
-                    className="text-balance mb-2 group-hover:text-lime-500 transition-colors duration-300"
+                    className="text-balance mb-2 group-hover:text-rose-600 transition-colors duration-300"
                     dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                   />
                   <div className="flex text-sm font-serif lowercase items-center gap-x-3 text-gray-500">
@@ -71,7 +71,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
           <div className="text-left font-serif lowercase">
             <Link
               href={`${currentPage === 2 ? baseURL : `${baseURL}/page/${currentPage - 1}`}${encodedSearch}`}
-              className="btn p-0 hover:text-lime-500 aria-disabled:opacity-0"
+              className="btn p-0 hover:text-rose-600 aria-disabled:opacity-0"
               aria-disabled={currentPage === 1}
             >
               <ArrowLongLeftIcon className="w-5 h-5" />
@@ -84,7 +84,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
           <div className="text-right font-serif lowercase">
             <Link
               href={`${baseURL}/page/${currentPage + 1}${encodedSearch}`}
-              className="btn p-0 hover:text-lime-500 aria-disabled:opacity-0"
+              className="btn p-0 hover:text-rose-600 aria-disabled:opacity-0"
               aria-disabled={currentPage === totalPages}
             >
               Next

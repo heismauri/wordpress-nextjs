@@ -47,7 +47,7 @@ const SingleTag = async ({ params: { slug, page } } : PaginatedRouteWithSlug) =>
       <h1 className="mb-6 lowercase">
         Tag:{' '}
         <span
-          className="font-sans underline underline-offset-2 decoration-lime-500"
+          className="font-sans underline underline-offset-2 decoration-rose-600"
           dangerouslySetInnerHTML={{ __html: tag.name }}
         />
       </h1>

@@ -3,14 +3,17 @@ import { clsx } from 'clsx';
 
 const HeaderBar = () => {
   const menuLinkClassName = clsx(
-    'relative before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:bg-lime-500 before:w-0',
+    'relative before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:bg-rose-600 before:w-0',
     'before:hover:w-full before:transition-all before:duration-300'
   )
 
   return (
     <header className="text-center">
-      <h2 className="py-6">Wordpress Next.js</h2>
-      <ul className="flex justify-center space-x-6 lowercase">
+      <h2 className="pt-6">Wordpress Next.js</h2>
+      <div className="container lg:max-w-6xl px-6">
+        <div className="border-t-2 border-t-rose-600 mt-6" />
+      </div>
+      <ul className="flex justify-center space-x-6 lowercase my-3">
         <li>
           <Link href="/" className={menuLinkClassName}>Home</Link>
         </li>
@@ -19,7 +22,7 @@ const HeaderBar = () => {
         </li>
       </ul>
       <div className="container lg:max-w-6xl px-6">
-        <div className="border-t my-6" />
+        <div className="border-t mb-6" />
       </div>
     </header>
   );
