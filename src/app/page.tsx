@@ -1,14 +1,12 @@
-import { Suspense } from 'react';
-
 import MainContainer from '@/components/MainContainer';
 import LatestPosts from '@/components/LatestPosts';
+import TrendingPosts from '@/components/TrendingPosts';
 
 const Home = () => {
   return (
     <MainContainer>
-      <Suspense fallback={<p>Loading feed...</p>}>
-        <LatestPosts />
-      </Suspense>
+      <LatestPosts />
+      <TrendingPosts />
     </MainContainer>
   );
 }

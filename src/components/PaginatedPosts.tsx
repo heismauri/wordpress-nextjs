@@ -1,12 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLongLeftIcon, ArrowLongRightIcon } from '@heroicons/react/24/solid';
-import { BookOpenIcon } from '@heroicons/react/24/outline';
-import { decode } from 'he';
 
 import { Posts } from '@/types/Post';
-import getReadingTime from '@/utils/getReadingTime';
-import getTextFromHTML from '@/utils/getTextFromHTML';
+import PostCard from '@/components/PostCard';
 
 interface PaginatedPostsProps extends Posts {
   baseURL?: string;
@@ -19,51 +15,9 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
   return (
     <>
       <div className="grid md:grid-cols-2 gap-6">
-        {posts.map((post) => {
-          const categories = post._embedded['wp:term'].find((terms) => {
-            return terms.find((term) => term.taxonomy === 'category')
-          });
-          const firstCategory = categories?.[0];
-          const thumbnail = post._embedded['wp:featuredmedia']?.[0]?.source_url;
-          return (
-            <Link
-              key={post.id}
-              href={`/posts/${post.slug}`}
-              className="group"
-              prefetch
-              scroll
-            >
-              <div className="grid gap-6 grid-cols-3">
-                {thumbnail && (
-                  <div>
-                    <Image
-                      src={thumbnail}
-                      alt={decode(post.title.rendered)}
-                      width={170}
-                      height={170}
-                      className="w-full aspect-square object-cover flex-grow bg-rose-200"
-                    />
-                  </div>
-                )}
-                <div className={thumbnail ? 'col-span-2' : 'col-span-3'}>
-                  {firstCategory && (
-                    <div className="text-sm font-serif lowercase text-rose-600">
-                      {decode(firstCategory.name)}
-                    </div>
-                  )}
-                  <h4
-                    className="text-balance mb-2 group-hover:text-rose-600 transition-colors duration-300"
-                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                  />
-                  <div className="flex text-sm font-serif lowercase items-center gap-x-3 text-gray-500">
-                    <BookOpenIcon className="h-4 w-4 inline-block" />
-                    {getReadingTime(getTextFromHTML(post.content.rendered))} min read
-                  </div>
-                </div>
-              </div>
-            </Link>
-          )
-        })}
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
       </div>
       {totalPages > 1 && baseURL && currentPage && (
         <div className="grid grid-cols-3 gap-6 mt-6">

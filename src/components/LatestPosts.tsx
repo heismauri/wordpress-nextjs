@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { clsx } from 'clsx';
 import { decode } from 'he';
 
 import { getPosts } from '@/services/wordpress';
-import getTextFromHTML from '@/utils/getTextFromHTML';
-import getReadingTime from '@/utils/getReadingTime';
 import getExcerpt from '@/utils/getExcerpt';
+import PostCard from '@/components/PostCard';
 
 const LatestPosts = async () => {
-  const result = await getPosts({ page: 1, perPage: 4 });
+  const result = await getPosts({ page: 1, perPage: 5 });
   if (result.isErr()) {
     throw new Error(result.unwrapErr().message);
   }
@@ -17,37 +17,40 @@ const LatestPosts = async () => {
   const [firstPost, ...restPosts] = posts;
   return (
     <>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-3 gap-6">
         {firstPost && (
-          <div className="flex col-span-2 gap-6 border-r pr-6">
-            <div>
-              <Link href={`/posts/${firstPost.slug}`} className="w-1/2 hover:text-rose-600" prefetch scroll>
-                <h2 className="text-4xl text-balance" dangerouslySetInnerHTML={{ __html: firstPost.title.rendered }} />
-              </Link>
-              <p className="mt-6">{getExcerpt(decode(firstPost.excerpt.rendered))}</p>
-            </div>
+          <div className="md:col-span-2 md:border-r md:pr-6">
             {firstPost._embedded['wp:featuredmedia'] && firstPost._embedded['wp:featuredmedia'][0]?.source_url && (
-              <Image
-                src={firstPost._embedded['wp:featuredmedia'][0].source_url}
-                alt={firstPost.title.rendered}
-                width={400}
-                height={400}
-                className="w-1/2 aspect-square object-cover"
-              />
+              <Link
+                href={`/posts/${firstPost.slug}`}
+                className={clsx(
+                  'block relative mb-4 before:block before:absolute before:top-0 before:right-0 before:border-[1.5rem]',
+                  'before:border-transparent before:border-r-rose-600 before:border-t-rose-600',
+                  'hover:opacity-70 transition-opacity duration-300'
+                )}
+                prefetch
+                scroll
+              >
+                <Image
+                  src={firstPost._embedded['wp:featuredmedia'][0].source_url}
+                  alt={firstPost.title.rendered}
+                  width={400}
+                  height={400}
+                  className="w-full aspect-video object-cover bg-rose-200"
+                />
+              </Link>
             )}
+            <div>
+              <Link href={`/posts/${firstPost.slug}`} className="hover:text-rose-600" prefetch scroll>
+                <h2 className="text-3xl text-pretty" dangerouslySetInnerHTML={{ __html: firstPost.title.rendered }} />
+              </Link>
+              <p className="mt-3">{getExcerpt(decode(firstPost.content.rendered))}</p>
+            </div>
           </div>
         )}
-        <div>
+        <div className="grid auto-rows-max gap-6 border-t md:border-transparent pt-6 md:pt-0">
           {restPosts && restPosts.length > 0 && restPosts.map((post) => (
-            <div key={post.id} className="mb-6 last-of-type:mb-0">
-              <div className="text-sm">
-                {new Date(post.date).toLocaleDateString()} • {post._embedded.author.map((a) => a.name).join(', ')}
-              </div>
-              <Link href={`/posts/${post.slug}`} className="hover:text-rose-600" prefetch scroll>
-                <h4 className="text-balance" dangerouslySetInnerHTML={{ __html: post.title.rendered }} />
-              </Link>
-              <div className="uppercase">{getReadingTime(getTextFromHTML(post.content.rendered))} min read</div>
-            </div>
+            <PostCard key={post.id} post={post} hideThumbnail />
           ))}
         </div>
       </div>
