@@ -32,6 +32,7 @@ const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearc
   if (currentPage > 1 && count === 0) {
     return redirect(`/posts${encodedSearch}`);
   }
+
   return (
     <MainContainer>
       {search && (

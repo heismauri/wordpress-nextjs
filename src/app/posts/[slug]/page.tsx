@@ -78,14 +78,21 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
               )}
             </div>
             {thumbnail && (
-              <Image
-                src={thumbnail}
-                alt={decode(post.title.rendered)}
-                width={540}
-                height={310}
-                className="max-w-full w-auto h-auto mx-auto"
-                priority
-              />
+              <div
+                className={clsx(
+                  'relative before:block before:absolute before:top-0 before:right-0 before:border-[1.5rem]',
+                  'before:border-transparent before:border-r-white before:border-t-white'
+                )}
+              >
+                <Image
+                  src={thumbnail}
+                  alt={decode(post.title.rendered)}
+                  width={540}
+                  height={310}
+                  className="max-w-full w-auto h-auto mx-auto bg-lime-200"
+                  priority
+                />
+              </div>
             )}
           </div>
           <div className="border-t my-6" />

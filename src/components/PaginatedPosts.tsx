@@ -41,7 +41,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
                       alt={decode(post.title.rendered)}
                       width={170}
                       height={170}
-                      className="w-full aspect-square object-cover flex-grow"
+                      className="w-full aspect-square object-cover flex-grow bg-lime-200"
                     />
                   </div>
                 )}
