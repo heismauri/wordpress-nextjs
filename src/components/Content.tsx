@@ -28,33 +28,33 @@ const Content = ({ content }: { content: Post | Page }) => {
   return (
     <>
       <div className="grid md:grid-cols-2 gap-x-6 items-center justify-items-center">
-        <div
-          className={clsx(
-            !thumbnail && 'md:w-1/2 md:col-span-2',
-            'w-full py-6'
-          )}
-        >
+        <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2','w-full py-6')}>
           {isPost && content.date && (
             <div className="w-full text-sm text-center text-rose-600 mb-2">
               {new Date(content.date).toLocaleDateString()}
             </div>
           )}
           <h1 className="text-pretty">{decode(content.title.rendered)}</h1>
-          {categories && (
+          {isPost && categories && (
             <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
               <FolderOpenIcon className="h-4 w-4 inline-block" />
-              {categories?.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/category/${category.slug}`}
-                  className="hover:text-rose-600"
-                >
-                  {decode(category.name)}
-                </Link>
-              ))}
+              {categories.map((category) => {
+                const categoryRoute = category.link.split('/');
+                const categorySlugs = categoryRoute.slice(4, categoryRoute.length - 1).join('/');
+
+                return (
+                  <Link
+                    key={category.id}
+                    href={`/category/${categorySlugs}`}
+                    className="hover:text-rose-600"
+                  >
+                    {decode(category.name)}
+                  </Link>
+                )
+              })}
             </div>
           )}
-          {author && author.name && (
+          {isPost && author && author.name && (
             <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
               <UserIcon className="h-4 w-4 inline-block" />
               <Link

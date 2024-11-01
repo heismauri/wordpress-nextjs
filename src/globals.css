@@ -49,14 +49,6 @@
   @apply max-w-full h-auto inline my-5;
 }
 
-.prose a img {
-  @apply transition-opacity duration-300;
-}
-
-.prose a img:hover {
-  @apply opacity-70;
-}
-
 .prose img.aligncenter {
   @apply mx-auto;
 }

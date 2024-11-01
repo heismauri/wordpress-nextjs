@@ -82,12 +82,13 @@ const getPage = async ({ slug, parent = 0 }: WordPressParams): Promise<Result<Pa
   }
 };
 
-const getCategory = async ({ slug }: WordPressParams): Promise<Result<WpTerm, Error>> => {
+const getCategory = async ({ slug, parent = 0 }: WordPressParams): Promise<Result<WpTerm, Error>> => {
   try {
     const categoryEndpoint = new URL(`${WORDPRESS_API_BASE_URL}/categories`);
     categoryEndpoint.search = new URLSearchParams({
       per_page: '1',
-      slug
+      slug,
+      parent: parent.toString()
     }).toString();
     const response = await fetch(categoryEndpoint);
 

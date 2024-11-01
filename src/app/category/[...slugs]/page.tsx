@@ -2,19 +2,33 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
-import { PaginatedRouteWithSlug } from '@/types/PaginatedRoute';
+import { PaginatedRouteWithSlugs } from '@/types/PaginatedRoute';
 import { getPosts, getCategory } from '@/services/wordpress';
 import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export const generateMetadata = async ({ params: { slug, page } }: PaginatedRouteWithSlug): Promise<Metadata> => {
-  const result = await getCategory({ slug });
+export const generateMetadata = async ({ params: { slugs } }: PaginatedRouteWithSlugs): Promise<Metadata> => {
+  let parent = 0;
+  const pageIndex = slugs.indexOf('page');
+  const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
+  const categorySlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
+
+  if (categorySlugs.length > 1) {
+    const result = await getCategory({ slug: categorySlugs[categorySlugs.length - 2] });
+    if (result.isOk()) {
+      const data = result.unwrap();
+      if (data) {
+        parent = data.id;
+      }
+    }
+  }
+
+  const result = await getCategory({ slug: categorySlugs[categorySlugs.length - 1], parent });
   const metadata: Metadata = {}
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
-      const currentPage = parseInt(page || '1', 10);
       const description = data.description || ''
 
       metadata.title = currentPage > 1 ? `${decode(data.name)} – Page ${currentPage}` : decode(data.name);
@@ -24,9 +38,23 @@ export const generateMetadata = async ({ params: { slug, page } }: PaginatedRout
   return metadata;
 }
 
-const SingleCategory = async ({ params: { slug, page } } : PaginatedRouteWithSlug) => {
-  const currentPage = parseInt(page || '1', 10);
-  const categoryResult = await getCategory({ slug });
+const SingleCategory = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
+  let parent = 0;
+  const pageIndex = slugs.indexOf('page');
+  const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
+  const categorySlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
+
+  if (categorySlugs.length > 1) {
+    const result = await getCategory({ slug: categorySlugs[categorySlugs.length - 2] });
+    if (result.isOk()) {
+      const data = result.unwrap();
+      if (data) {
+        parent = data.id;
+      }
+    }
+  }
+
+  const categoryResult = await getCategory({ slug: categorySlugs[categorySlugs.length - 1], parent });
   if (!categoryResult.isOk()) {
     throw new Error(categoryResult.unwrapErr().message);
   }
@@ -42,6 +70,10 @@ const SingleCategory = async ({ params: { slug, page } } : PaginatedRouteWithSlu
   }
 
   const { count, posts } = postResult.unwrap();
+  if (currentPage > 1 && count === 0) {
+    notFound();
+  }
+
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
@@ -54,7 +86,12 @@ const SingleCategory = async ({ params: { slug, page } } : PaginatedRouteWithSlu
       {category?.description && category.description.trim().length !== 0 && (
         <p className="text-pretty mb-6" dangerouslySetInnerHTML={{ __html: category.description }} />
       )}
-      <PaginatedPosts count={count} posts={posts} baseURL={`/category/${slug}`} currentPage={currentPage} />
+      <PaginatedPosts
+        count={count}
+        posts={posts}
+        baseURL={`/category/${categorySlugs.join('/')}`}
+        currentPage={currentPage}
+      />
     </MainContainer>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
 import { PaginatedRouteWithSearch } from '@/types/PaginatedRoute';
 import { getPosts } from '@/services/wordpress';
@@ -30,7 +30,7 @@ const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearc
   const { count, posts } = result.unwrap();
   const encodedSearch = search ? `?search=${encodeURIComponent(search)}` : '';
   if (currentPage > 1 && count === 0) {
-    return redirect(`/posts${encodedSearch}`);
+    notFound();
   }
 
   return (

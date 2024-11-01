@@ -11,6 +11,13 @@ export interface PaginatedRouteWithSlug extends Omit<PaginatedRoute, 'params'> {
   }
 }
 
+export interface PaginatedRouteWithSlugs extends Omit<PaginatedRoute, 'params'> {
+  params: {
+    slugs: string[];
+    page?: string;
+  }
+}
+
 export interface PaginatedRouteWithSearch extends PaginatedRoute {
   searchParams: Promise<{ search: string }>;
 }
