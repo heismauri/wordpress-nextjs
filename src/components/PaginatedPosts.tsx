@@ -20,9 +20,8 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
         ))}
       </div>
       {totalPages > 1 && baseURL && currentPage && (
-        <div className="grid grid-cols-3 gap-6 mt-6">
-          <div className="sr-only">Pagination</div>
-          <div className="text-left font-serif lowercase">
+        <div className="grid grid-cols-3 items-center gap-6 mt-6 leading-none">
+          <div className="text-left font-serif lowercase h-5">
             <Link
               href={`${currentPage === 2 ? baseURL : `${baseURL}/page/${currentPage - 1}`}${encodedSearch}`}
               className="btn p-0 hover:text-rose-600 aria-disabled:opacity-0"
@@ -35,7 +34,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
           <div className="text-center">
             {currentPage} / {totalPages}
           </div>
-          <div className="text-right font-serif lowercase">
+          <div className="text-right font-serif lowercase h-5">
             <Link
               href={`${baseURL}/page/${currentPage + 1}${encodedSearch}`}
               className="btn p-0 hover:text-rose-600 aria-disabled:opacity-0"
