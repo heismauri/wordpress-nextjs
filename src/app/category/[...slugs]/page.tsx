@@ -43,23 +43,28 @@ const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
   const pageIndex = slugs.indexOf('page');
   const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
   const categorySlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
+  const categoryNames = [];
 
   if (categorySlugs.length > 1) {
     const result = await getCategory({ slug: categorySlugs[categorySlugs.length - 2] });
-    if (result.isOk()) {
-      const data = result.unwrap();
-      if (data) {
-        parent = data.id;
-      }
+    if (result.isErr()) {
+      throw new Error(result.unwrapErr().message);
+    }
+
+    const data = result.unwrap();
+    if (data) {
+      parent = data.id;
+      categoryNames.push(decode(data.name));
     }
   }
 
   const categoryResult = await getCategory({ slug: categorySlugs[categorySlugs.length - 1], parent });
-  if (!categoryResult.isOk()) {
+  if (categoryResult.isErr()) {
     throw new Error(categoryResult.unwrapErr().message);
   }
 
   const category = categoryResult.unwrap();
+  categoryNames.push(decode(category.name));
   if (!category) {
     return notFound();
   }
@@ -79,7 +84,7 @@ const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
       <h1 className="mb-6 lowercase">
         Category:{' '}
         <span className="font-sans underline underline-offset-2 decoration-rose-600">
-          {decode(category.name)}
+          {categoryNames.join(' > ')}
         </span>
       </h1>
       {category?.description && category.description.trim().length !== 0 && (
