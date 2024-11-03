@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+const BLOG_NAME = process.env.WORDPRESS_NAME || 'Your Blog Name';
+
 const Footer = () => {
   return (
     <footer className="w-full pb-6 absolute bottom-0">
@@ -8,7 +10,7 @@ const Footer = () => {
         <div>
           <p className="font-serif lowercase">
             <Link href="/" className="text-rose-600 hover:text-rose-700">
-              Your Blog Name
+              {BLOG_NAME}
             </Link> –{' '}
             {new Date().getFullYear()} –{' '}
             Powered by{' '}

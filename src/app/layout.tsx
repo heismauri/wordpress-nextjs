@@ -17,10 +17,11 @@ const dmSerfilDisplay = DM_Serif_Display({
   variable: '--font-dm-serif-display'
 });
 
+const BLOG_NAME = process.env.WORDPRESS_NAME || 'Your Blog Name';
 export const metadata: Metadata = {
   title: {
-    default: 'Your Blog Name',
-    template: '%s – Your Blog Name'
+    default: BLOG_NAME,
+    template: `%s – ${BLOG_NAME}`
   },
   description: 'A WordPress Next.js starter template'
 };

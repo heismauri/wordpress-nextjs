@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { clsx } from 'clsx';
-import SearchBar from './SearchBar';
+
+import SearchBar from '@/components/SearchBar';
+
+const BLOG_NAME = process.env.WORDPRESS_NAME || 'Your Blog Name';
 
 const HeaderBar = () => {
   const menuLinkClassName = clsx(
@@ -10,7 +13,17 @@ const HeaderBar = () => {
 
   return (
     <header className="container lg:max-w-6xl text-center px-6">
-      <h2 className="text-4xl lowercase pt-6">Your <span className="text-rose-600">Blog</span> Name</h2>
+      <h2 className="text-4xl lowercase pt-6 flex space-x-2 justify-center flex-wrap">
+        {BLOG_NAME.split(' ').map((word, index) => {
+          return (
+              index % 2 == 0 ? (
+              <span key={index}>{word}</span>
+            ) : (
+              <span key={index} className="text-rose-600">{word}</span>
+            )
+          )
+        })}
+      </h2>
       <div>
         <div className="border-t-2 border-t-rose-600 mt-6" />
       </div>
@@ -23,7 +36,7 @@ const HeaderBar = () => {
             <Link href="/posts" className={menuLinkClassName}>Posts</Link>
           </li>
         </ul>
-        <div className="sm:max-w-72 w-full ">
+        <div className="sm:max-w-72 w-full">
           <SearchBar />
         </div>
       </div>

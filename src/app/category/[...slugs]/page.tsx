@@ -78,13 +78,14 @@ const SingleCategory = async ({ params: { slugs } } : PaginatedRouteWithSlugs) =
     <MainContainer>
       <h1 className="mb-6 lowercase">
         Category:{' '}
-        <span
-          className="font-sans underline underline-offset-2 decoration-rose-600"
-          dangerouslySetInnerHTML={{ __html: category.name }}
-        />
+        <span className="font-sans underline underline-offset-2 decoration-rose-600">
+          {decode(category.name)}
+        </span>
       </h1>
       {category?.description && category.description.trim().length !== 0 && (
-        <p className="text-pretty mb-6" dangerouslySetInnerHTML={{ __html: category.description }} />
+        <p className="text-pretty mb-6">
+          {decode(category.description)}
+        </p>
       )}
       <PaginatedPosts
         count={count}
