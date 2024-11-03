@@ -2,33 +2,19 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
-import { PaginatedRouteWithSlugs } from '@/types/PaginatedRoute';
+import { PaginatedRouteWithSlug } from '@/types/PaginatedRoute';
 import { getPosts, getTag } from '@/services/wordpress';
 import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export const generateMetadata = async ({ params: { slugs } }: PaginatedRouteWithSlugs): Promise<Metadata> => {
-  let parent = 0;
-  const pageIndex = slugs.indexOf('page');
-  const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
-  const tagSlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
-
-  if (tagSlugs.length > 1) {
-    const result = await getTag({ slug: tagSlugs[tagSlugs.length - 2] });
-    if (result.isOk()) {
-      const data = result.unwrap();
-      if (data) {
-        parent = data.id;
-      }
-    }
-  }
-
-  const result = await getTag({ slug: tagSlugs[tagSlugs.length - 1], parent });
+export const generateMetadata = async ({ params: { slug, page } }: PaginatedRouteWithSlug): Promise<Metadata> => {
+  const result = await getTag({ slug });
   const metadata: Metadata = {}
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
+      const currentPage = parseInt(page || '1', 10);
       const description = data.description || ''
 
       metadata.title = currentPage > 1 ? `${decode(data.name)} – Page ${currentPage}` : decode(data.name);
@@ -38,23 +24,9 @@ export const generateMetadata = async ({ params: { slugs } }: PaginatedRouteWith
   return metadata;
 }
 
-const Tags = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
-  let parent = 0;
-  const pageIndex = slugs.indexOf('page');
-  const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
-  const tagSlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
-
-  if (tagSlugs.length > 1) {
-    const result = await getTag({ slug: tagSlugs[tagSlugs.length - 2] });
-    if (result.isOk()) {
-      const data = result.unwrap();
-      if (data) {
-        parent = data.id;
-      }
-    }
-  }
-
-  const tagResult = await getTag({ slug: tagSlugs[tagSlugs.length - 1], parent });
+const SingleTag = async ({ params: { slug, page } } : PaginatedRouteWithSlug) => {
+  const currentPage = parseInt(page || '1', 10);
+  const tagResult = await getTag({ slug });
   if (!tagResult.isOk()) {
     throw new Error(tagResult.unwrapErr().message);
   }
@@ -87,9 +59,9 @@ const Tags = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
           {decode(tag.description)}
         </p>
       )}
-      <PaginatedPosts count={count} posts={posts} baseURL={`/tag/${tagSlugs.join('/')}`} currentPage={currentPage} />
+      <PaginatedPosts count={count} posts={posts} baseURL={`/tag/${slug}`} currentPage={currentPage} />
     </MainContainer>
   );
 }
 
-export default Tags;
+export default SingleTag;

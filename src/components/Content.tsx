@@ -94,7 +94,7 @@ const Content = ({ content }: { content: Post | Page }) => {
             {tags.map((tag) => (
               <Link
                 key={tag.id}
-                href={`/tag/${tag.link.split('/').slice(4).join('/')}`}
+                href={`/tag/${tag.slug}`}
                 className="hover:text-rose-600"
               >
                 {decode(tag.name)}
