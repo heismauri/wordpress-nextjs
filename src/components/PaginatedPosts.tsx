@@ -24,7 +24,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
           <div className="text-left font-serif lowercase h-5">
             <Link
               href={`${currentPage === 2 ? baseURL : `${baseURL}/page/${currentPage - 1}`}${encodedSearch}`}
-              className="btn p-0 hover:text-rose-600 aria-disabled:opacity-0"
+              className="btn p-0 hover:text-sky-600 aria-disabled:opacity-0"
               aria-disabled={currentPage === 1}
             >
               <ArrowLongLeftIcon className="w-5 h-5" />
@@ -37,7 +37,7 @@ const PaginatedPosts = ({ count, posts, baseURL, currentPage, encodedSearch = ''
           <div className="text-right font-serif lowercase h-5">
             <Link
               href={`${baseURL}/page/${currentPage + 1}${encodedSearch}`}
-              className="btn p-0 hover:text-rose-600 aria-disabled:opacity-0"
+              className="btn p-0 hover:text-sky-600 aria-disabled:opacity-0"
               aria-disabled={currentPage === totalPages}
             >
               Next

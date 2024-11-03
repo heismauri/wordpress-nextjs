@@ -11,7 +11,7 @@ const Loading = () => {
         <svg
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
-          className="stroke-rose-600"
+          className="stroke-sky-600"
         >
           <style>
             {`

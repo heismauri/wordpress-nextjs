@@ -25,7 +25,7 @@ const LatestPosts = async () => {
                 href={`/posts/${firstPost.slug}`}
                 className={clsx(
                   'block relative mb-4 before:block before:absolute before:top-0 before:right-0 before:border-[1.5rem]',
-                  'before:border-transparent before:border-r-rose-600 before:border-t-rose-600',
+                  'before:border-transparent before:border-r-sky-600 before:border-t-sky-600',
                   'hover:opacity-70 transition-opacity duration-300'
                 )}
                 prefetch
@@ -36,12 +36,12 @@ const LatestPosts = async () => {
                   alt={firstPost.title.rendered}
                   width={400}
                   height={400}
-                  className="w-full aspect-video object-cover bg-rose-200"
+                  className="w-full aspect-video object-cover bg-sky-200"
                 />
               </Link>
             )}
             <div>
-              <Link href={`/posts/${firstPost.slug}`} className="hover:text-rose-600" prefetch scroll>
+              <Link href={`/posts/${firstPost.slug}`} className="hover:text-sky-600" prefetch scroll>
                 <h2 className="text-3xl text-pretty">
                   {decode(firstPost.title.rendered)}
                 </h2>

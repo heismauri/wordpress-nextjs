@@ -30,7 +30,7 @@ const Content = ({ content }: { content: Post | Page }) => {
       <div className="grid md:grid-cols-2 gap-x-6 items-center justify-items-center">
         <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2','w-full py-6')}>
           {isPost && content.date && (
-            <div className="w-full text-sm text-center text-rose-600 mb-2">
+            <div className="w-full text-sm text-center text-sky-600 mb-2">
               {new Date(content.date).toLocaleDateString()}
             </div>
           )}
@@ -42,7 +42,7 @@ const Content = ({ content }: { content: Post | Page }) => {
                 <Link
                   key={category.id}
                   href={`/category/${category.link.split('/').slice(4).join('/')}`}
-                  className="hover:text-rose-600"
+                  className="hover:text-sky-600"
                 >
                   {decode(category.name)}
                 </Link>
@@ -54,7 +54,7 @@ const Content = ({ content }: { content: Post | Page }) => {
               <UserIcon className="h-4 w-4 inline-block" />
               <Link
                 href={`/author/${author.slug}`}
-                className="hover:text-rose-600"
+                className="hover:text-sky-600"
               >
                 {decode(author.name)}
               </Link>
@@ -65,7 +65,7 @@ const Content = ({ content }: { content: Post | Page }) => {
           <div
             className={clsx(
               'relative before:block before:absolute before:top-0 before:right-0 before:border-[1.5rem]',
-              'before:border-transparent before:border-r-rose-600 before:border-t-rose-600'
+              'before:border-transparent before:border-r-sky-600 before:border-t-sky-600'
             )}
           >
             <Image
@@ -73,7 +73,7 @@ const Content = ({ content }: { content: Post | Page }) => {
               alt={decode(content.title.rendered)}
               width={540}
               height={310}
-              className="max-w-full w-auto h-auto mx-auto bg-rose-200"
+              className="max-w-full w-auto h-auto mx-auto bg-sky-200"
               priority
             />
           </div>
@@ -83,8 +83,8 @@ const Content = ({ content }: { content: Post | Page }) => {
       <div className="max-w-3xl mx-auto mt-6">
         <div
           className={clsx(
-            'prose prose-a:text-rose-600 prose-a:no-underline prose-a:border-b-2 prose-a:border-transparent',
-            'hover:prose-a:border-rose-600 prose-a:has-[img]:!border-b-0'
+            'prose prose-a:text-sky-600 prose-a:no-underline prose-a:border-b-2 prose-a:border-transparent',
+            'hover:prose-a:border-sky-600 prose-a:has-[img]:!border-b-0'
           )}
           dangerouslySetInnerHTML={{ __html: content.content.rendered }}
         />
@@ -95,7 +95,7 @@ const Content = ({ content }: { content: Post | Page }) => {
               <Link
                 key={tag.id}
                 href={`/tag/${tag.slug}`}
-                className="hover:text-rose-600"
+                className="hover:text-sky-600"
               >
                 {decode(tag.name)}
               </Link>

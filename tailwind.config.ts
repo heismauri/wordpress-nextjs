@@ -16,7 +16,10 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-dm-sans)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-dm-serif-display)', ...defaultTheme.fontFamily.serif]
+        serif: [
+          'var(--font-dm-serif-display)',
+          ...defaultTheme.fontFamily.serif
+        ]
       }
     }
   },

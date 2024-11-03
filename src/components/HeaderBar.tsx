@@ -8,7 +8,7 @@ const BLOG_NAME = process.env.WORDPRESS_NAME || 'Your Blog Name';
 
 const HeaderBar = () => {
   const menuLinkClassName = clsx(
-    'relative before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:bg-rose-600 before:w-0',
+    'relative before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:bg-sky-600 before:w-0',
     'before:hover:w-full before:transition-all before:duration-300'
   )
 
@@ -20,13 +20,13 @@ const HeaderBar = () => {
               index % 2 == 0 ? (
               <span key={index}>{word}</span>
             ) : (
-              <span key={index} className="text-rose-600">{word}</span>
+              <span key={index} className="text-sky-600">{word}</span>
             )
           )
         })}
       </h2>
       <div>
-        <div className="border-t-2 border-t-rose-600 mt-6" />
+        <div className="border-t-2 border-t-sky-600 mt-6" />
       </div>
       <div className="flex justify-center sm:justify-between items-center my-2 flex-wrap">
         <nav className="mb-2 sm:mb-0">

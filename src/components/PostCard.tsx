@@ -23,17 +23,17 @@ const PostCard = ({ post, hideThumbnail = false }: { post: Post, hideThumbnail?:
             alt={decode(post.title.rendered)}
             width={170}
             height={170}
-            className="w-full aspect-square object-cover flex-grow bg-rose-200"
+            className="w-full aspect-square object-cover flex-grow bg-sky-200"
           />
         </Link>
       )}
       <div className={thumbnail ? 'col-span-2' : 'col-span-3'}>
         {firstCategory && (
-          <div className="text-sm font-serif lowercase text-rose-600">
+          <div className="text-sm font-serif lowercase text-sky-600">
             {decode(firstCategory.name)}
           </div>
         )}
-        <Link href={`/posts/${post.slug}`} className="hover:text-rose-600" prefetch scroll>
+        <Link href={`/posts/${post.slug}`} className="hover:text-sky-600" prefetch scroll>
           <h4 className="text-balance mb-2">
             {decode(post.title.rendered)}
           </h4>

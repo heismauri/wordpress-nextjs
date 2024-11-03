@@ -50,7 +50,7 @@ const SingleTag = async ({ params: { slug, page } } : PaginatedRouteWithSlug) =>
     <MainContainer>
       <h1 className="mb-6 lowercase">
         Tag:{' '}
-        <span className="font-sans underline underline-offset-2 decoration-rose-600">
+        <span className="font-sans underline underline-offset-2 decoration-sky-600">
           {decode(tag.name)}
         </span>
       </h1>

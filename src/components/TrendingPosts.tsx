@@ -11,7 +11,7 @@ const TrendingPosts = async () => {
   return (
     <div className="border-t mt-6 pt-4">
       <h1 className="mb-6 lowercase">
-        <span className="text-rose-600">#</span>
+        <span className="text-sky-600">#</span>
         Trending
       </h1>
       <PaginatedPosts count={count} posts={posts} />

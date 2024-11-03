@@ -83,7 +83,7 @@ const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
     <MainContainer>
       <h1 className="mb-6 lowercase">
         Category:{' '}
-        <span className="font-sans underline underline-offset-2 decoration-rose-600">
+        <span className="font-sans underline underline-offset-2 decoration-sky-600">
           {categoryNames.join(' > ')}
         </span>
       </h1>
