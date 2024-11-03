@@ -38,7 +38,7 @@ export const generateMetadata = async ({ params: { slugs } }: PaginatedRouteWith
   return metadata;
 }
 
-const SingleCategory = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
+const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
   let parent = 0;
   const pageIndex = slugs.indexOf('page');
   const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
@@ -97,4 +97,4 @@ const SingleCategory = async ({ params: { slugs } } : PaginatedRouteWithSlugs) =
   );
 }
 
-export default SingleCategory;
+export default Categories;

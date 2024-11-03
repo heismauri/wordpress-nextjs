@@ -38,20 +38,15 @@ const Content = ({ content }: { content: Post | Page }) => {
           {isPost && categories && (
             <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
               <FolderOpenIcon className="h-4 w-4 inline-block" />
-              {categories.map((category) => {
-                const categoryRoute = category.link.split('/');
-                const categorySlugs = categoryRoute.slice(4, categoryRoute.length - 1).join('/');
-
-                return (
-                  <Link
-                    key={category.id}
-                    href={`/category/${categorySlugs}`}
-                    className="hover:text-rose-600"
-                  >
-                    {decode(category.name)}
-                  </Link>
-                )
-              })}
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  href={`/category/${category.link.split('/').slice(4).join('/')}`}
+                  className="hover:text-rose-600"
+                >
+                  {decode(category.name)}
+                </Link>
+              ))}
             </div>
           )}
           {isPost && author && author.name && (
@@ -96,10 +91,10 @@ const Content = ({ content }: { content: Post | Page }) => {
         {isPost && tags && (
           <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-4 text-gray-500 flex-wrap">
             <TagIcon className="h-4 w-4 inline-block" />
-            {tags?.map((tag) => (
+            {tags.map((tag) => (
               <Link
                 key={tag.id}
-                href={`/tag/${tag.slug}`}
+                href={`/tag/${tag.link.split('/').slice(4).join('/')}`}
                 className="hover:text-rose-600"
               >
                 {decode(tag.name)}
