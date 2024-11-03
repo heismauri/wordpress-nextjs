@@ -12,7 +12,9 @@ const Footer = () => {
             <Link href="/" className="text-rose-600 hover:text-rose-700">
               {BLOG_NAME}
             </Link> –{' '}
-            {new Date().getFullYear()} –{' '}
+            {new Date().getFullYear()}{' '}
+            <span className="hidden sm:inline">–{' '}</span>
+            <br className="sm:hidden" />
             Powered by{' '}
             <Link href="https://wordpress.org/" className="text-rose-600 hover:text-rose-700">
               WordPress
