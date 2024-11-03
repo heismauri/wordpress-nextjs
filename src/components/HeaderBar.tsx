@@ -9,7 +9,7 @@ const HeaderBar = () => {
 
   return (
     <header className="text-center">
-      <h2 className="pt-6">Wordpress Next.js</h2>
+      <h2 className="text-4xl lowercase pt-6">Your <span className="text-rose-600">Blog</span> Name</h2>
       <div className="container lg:max-w-6xl px-6">
         <div className="border-t-2 border-t-rose-600 mt-6" />
       </div>
