@@ -70,7 +70,7 @@ const SingleCategory = async ({ params: { slugs } } : PaginatedRouteWithSlugs) =
   }
 
   const { count, posts } = postResult.unwrap();
-  if (currentPage > 1 && count === 0) {
+  if (currentPage !== 1 && count === 0) {
     notFound();
   }
 

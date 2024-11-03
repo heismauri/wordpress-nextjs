@@ -29,7 +29,7 @@ const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearc
 
   const { count, posts } = result.unwrap();
   const encodedSearch = search ? `?search=${encodeURIComponent(search)}` : '';
-  if (currentPage > 1 && count === 0) {
+  if (currentPage !== 1 && count === 0) {
     notFound();
   }
 

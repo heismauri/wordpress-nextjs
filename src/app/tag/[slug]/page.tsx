@@ -42,6 +42,10 @@ const SingleTag = async ({ params: { slug, page } } : PaginatedRouteWithSlug) =>
   }
 
   const { count, posts } = postResult.unwrap();
+  if (currentPage !== 1 && count === 0) {
+    notFound();
+  }
+
   return (
     <MainContainer>
       <h1 className="mb-6 lowercase">
