@@ -42,7 +42,9 @@ const LatestPosts = async () => {
             )}
             <div>
               <Link href={`/posts/${firstPost.slug}`} className="hover:text-rose-600" prefetch scroll>
-                <h2 className="text-3xl text-pretty" dangerouslySetInnerHTML={{ __html: firstPost.title.rendered }} />
+                <h2 className="text-3xl text-pretty">
+                  {decode(firstPost.title.rendered)}
+                </h2>
               </Link>
               <p className="mt-3">{getExcerpt(decode(firstPost.content.rendered))}</p>
             </div>
