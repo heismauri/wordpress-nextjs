@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { clsx } from 'clsx';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 
 import SearchBar from '@/components/SearchBar';
 
@@ -28,14 +29,21 @@ const HeaderBar = () => {
         <div className="border-t-2 border-t-rose-600 mt-6" />
       </div>
       <div className="flex justify-center sm:justify-between items-center my-2 flex-wrap">
-        <ul className="flex justify-center space-x-6 lowercase py-2">
-          <li>
-            <Link href="/" className={menuLinkClassName}>Home</Link>
-          </li>
-          <li>
-            <Link href="/posts" className={menuLinkClassName}>Posts</Link>
-          </li>
-        </ul>
+        <nav className="mb-2 sm:mb-0">
+          <label htmlFor="menu" className="block sm:hidden lowercase font-serif cursor-pointer">
+            <Bars3Icon className="w-4 h-4 inline-block mr-1" />
+            Menu
+          </label>
+          <input type="checkbox" id="menu" className="peer hidden" />
+          <ul className="hidden sm:flex peer-checked:flex justify-center space-x-6 lowercase py-2">
+            <li>
+              <Link href="/" className={menuLinkClassName}>Home</Link>
+            </li>
+            <li>
+              <Link href="/posts" className={menuLinkClassName}>Posts</Link>
+            </li>
+          </ul>
+        </nav>
         <div className="sm:max-w-72 w-full">
           <SearchBar />
         </div>
