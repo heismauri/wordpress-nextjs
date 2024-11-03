@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation'
 
@@ -5,6 +6,8 @@ import { PaginatedRouteWithSearch } from '@/types/PaginatedRoute';
 import { getPosts } from '@/services/wordpress';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
+import RecentPosts from '@/components/RecentPosts';
+import SuspenseRecentPosts from '@/components/SuspenseRecentPosts';
 
 export const generateMetadata = async (
   { params: { page }, searchParams }: PaginatedRouteWithSearch
@@ -36,9 +39,21 @@ const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearc
   return (
     <MainContainer>
       {search && (
-        <h1 className="mb-6 lowercase">
-          Results for: <span className="font-sans underline underline-offset-2 decoration-rose-600">{search}</span>
-        </h1>
+        <>
+          <h1 className="mb-6 lowercase">
+            Results for: <span className="font-sans underline underline-offset-2 decoration-rose-600">{search}</span>
+          </h1>
+          <>
+            {count === 0 && (
+              <>
+                <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
+                <Suspense fallback={<SuspenseRecentPosts />}>
+                  <RecentPosts />
+                </Suspense>
+              </>
+            )}
+          </>
+        </>
       )}
       <PaginatedPosts
         count={count}
