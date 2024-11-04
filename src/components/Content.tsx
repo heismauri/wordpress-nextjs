@@ -31,7 +31,7 @@ const Content = ({ content }: { content: Post | Page }) => {
         <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2','w-full py-6')}>
           {isPost && content.date && (
             <div className="w-full text-sm text-center text-sky-600 mb-2">
-              {new Date(content.date).toLocaleDateString()}
+              {new Date(content.date).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
           )}
           <h1 className="text-pretty">{decode(content.title.rendered)}</h1>
