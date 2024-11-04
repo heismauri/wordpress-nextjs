@@ -1,34 +1,34 @@
 module.exports = {
-  root: true,
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
+    'next/core-web-vitals',
+    'next/typescript',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react/recommended',
-    'prettier',
-    'next/core-web-vitals',
-    'next/typescript'
+    'plugin:react-hooks/recommended',
+    'prettier'
   ],
-  plugins: ['prettier'],
   ignorePatterns: ['dist'],
-  settings: {
-    react: { version: '18.3.1' }
-  },
+  plugins: ['prettier'],
+  root: true,
   rules: {
-    'max-len': ['error', { code: 120, tabWidth: 2 }],
     'arrow-body-style': 'off',
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
-    'no-underscore-dangle': 'off',
+    'comma-dangle': ['error', 'never'],
     'import/extensions': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
-    'comma-dangle': ['error', 'never'],
+    'max-len': ['error', { code: 120, tabWidth: 2 }],
     'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-underscore-dangle': 'off',
     'object-curly-newline': ['error', { consistent: true }],
+    'prettier/prettier': 'error',
     'quote-props': ['error', 'consistent'],
     'quotes': ['error', 'single', { avoidEscape: true }],
-    'prettier/prettier': 'error'
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off'
+  },
+  settings: {
+    react: { version: '18.3.1' }
   }
 };
