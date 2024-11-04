@@ -16,8 +16,8 @@ const SearchBar = () => {
       </button>
       <input
         className={clsx(
-          'w-full pl-9 pr-3 py-2 bg-transparent focus:outline-none placeholder:text-gray-400 placeholder:lowercase',
-          'border border-transparent focus:border-sky-400 hover:border-gray-300 transition duration-300 ease'
+          'w-full pl-9 pr-3 py-3 bg-transparent focus:outline-none placeholder:text-gray-400 placeholder:lowercase',
+          'border-b border-transparent focus:border-sky-600 hover:border-sky-300 transition duration-300 ease'
         )}
         type="search"
         name="search"

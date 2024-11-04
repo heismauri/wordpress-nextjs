@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 
-import HeaderBar from '@/components/HeaderBar';
+import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const MainContainer = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <>
-      <HeaderBar />
+      <Header />
       <main className="container lg:max-w-6xl px-6">
         {children}
       </main>
