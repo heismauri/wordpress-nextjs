@@ -23,6 +23,6 @@ const RelatedPosts = async ({ postId, categoryId }: RelatedPostsProps) => {
       <PaginatedPosts count={2} posts={posts} />
     </div>
   );
-}
+};
 
 export default RelatedPosts;

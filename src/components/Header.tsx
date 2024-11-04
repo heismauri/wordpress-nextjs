@@ -8,13 +8,13 @@ const Header = () => {
     <header className="container lg:max-w-6xl px-6">
       <h2 className="text-4xl lowercase pt-6 flex space-x-2 justify-center flex-wrap text-center">
         {BLOG_NAME.split(' ').map((word, index) => {
-          return (
-              index % 2 == 0 ? (
-              <span key={index}>{word}</span>
-            ) : (
-              <span key={index} className="text-sky-600">{word}</span>
-            )
-          )
+          return index % 2 == 0 ? (
+            <span key={index}>{word}</span>
+          ) : (
+            <span key={index} className="text-sky-600">
+              {word}
+            </span>
+          );
         })}
       </h2>
       <div>
@@ -31,6 +31,6 @@ const Header = () => {
       </div>
     </header>
   );
-}
+};
 
 export default Header;

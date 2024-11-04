@@ -11,9 +11,8 @@ const Footer = () => {
           <p className="font-serif lowercase">
             <Link href="/" className="text-sky-600 hover:text-sky-700">
               {BLOG_NAME}
-            </Link> –{' '}
-            {new Date().getFullYear()}{' '}
-            <span className="hidden sm:inline">–{' '}</span>
+            </Link>{' '}
+            – {new Date().getFullYear()} <span className="hidden sm:inline">– </span>
             <br className="sm:hidden" />
             Powered by{' '}
             <Link href="https://wordpress.org/" className="text-sky-600 hover:text-sky-700">
@@ -24,6 +23,6 @@ const Footer = () => {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

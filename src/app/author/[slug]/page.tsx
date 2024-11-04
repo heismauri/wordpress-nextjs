@@ -8,23 +8,25 @@ import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export const generateMetadata = async ({ params: { slug, page } }: PaginatedRouteWithSlug): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params: { slug, page }
+}: PaginatedRouteWithSlug): Promise<Metadata> => {
   const result = await getAuthor({ slug });
-  const metadata: Metadata = {}
+  const metadata: Metadata = {};
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
       const currentPage = parseInt(page || '1', 10);
-      const description = data.description || ''
+      const description = data.description || '';
 
       metadata.title = currentPage > 1 ? `${decode(data.name)} – Page ${currentPage}` : decode(data.name);
       if (description.trim().length !== 0) metadata.description = getExcerpt(decode(description));
     }
   }
   return metadata;
-}
+};
 
-const SingleAuthor = async ({ params: { slug, page } } : PaginatedRouteWithSlug) => {
+const SingleAuthor = async ({ params: { slug, page } }: PaginatedRouteWithSlug) => {
   const currentPage = parseInt(page || '1', 10);
   const authorResult = await getAuthor({ slug });
   if (!authorResult.isOk()) {
@@ -55,13 +57,11 @@ const SingleAuthor = async ({ params: { slug, page } } : PaginatedRouteWithSlug)
         </span>
       </h1>
       {author?.description && author.description.trim().length !== 0 && (
-        <p className="text-pretty mb-6">
-          {decode(author.description)}
-        </p>
+        <p className="text-pretty mb-6">{decode(author.description)}</p>
       )}
       <PaginatedPosts count={count} posts={posts} baseURL={`/author/${slug}`} currentPage={currentPage} />
     </MainContainer>
   );
-}
+};
 
 export default SingleAuthor;

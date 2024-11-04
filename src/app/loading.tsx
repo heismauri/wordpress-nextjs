@@ -8,11 +8,7 @@ const Loading = () => {
         role="status"
       >
         <span className="sr-only">Loading...</span>
-        <svg
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          className="stroke-sky-600"
-        >
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="stroke-sky-600">
           <style>
             {`
               .spinner_V8m1{transform-origin:center;animation:spinner_zKoa 2s linear infinite}
@@ -34,6 +30,6 @@ const Loading = () => {
       </div>
     </MainContainer>
   );
-}
+};
 
 export default Loading;

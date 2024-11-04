@@ -14,24 +14,24 @@ const Content = ({ content }: { content: Post | Page }) => {
   const isPost = content.type === 'post';
   const categories =
     isPost &&
-    content._embedded['wp:term'].find((terms) =>
-      terms.find((term) => term.taxonomy === 'category')
-    );
+    content._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'category'));
   const tags =
     isPost &&
-    content._embedded['wp:term'].find((terms) =>
-      terms.find((term) => term.taxonomy === 'post_tag')
-    );
+    content._embedded['wp:term'].find((terms) => terms.find((term) => term.taxonomy === 'post_tag'));
   const [author] = (isPost && content._embedded.author) || [];
   const thumbnail = content._embedded['wp:featuredmedia']?.[0]?.source_url;
 
   return (
     <>
       <div className="grid md:grid-cols-2 gap-x-6 items-center justify-items-center">
-        <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2','w-full py-6')}>
+        <div className={clsx(!thumbnail && 'md:w-1/2 md:col-span-2', 'w-full py-6')}>
           {isPost && content.date && (
             <div className="w-full text-sm text-center text-sky-600 mb-2">
-              {new Date(content.date).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' })}
+              {new Date(content.date).toLocaleDateString([], {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
             </div>
           )}
           <h1 className="text-pretty">{decode(content.title.rendered)}</h1>
@@ -52,10 +52,7 @@ const Content = ({ content }: { content: Post | Page }) => {
           {isPost && author && author.name && (
             <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-3 text-gray-500 flex-wrap">
               <UserIcon className="h-4 w-4 inline-block" />
-              <Link
-                href={`/author/${author.slug}`}
-                className="hover:text-sky-600"
-              >
+              <Link href={`/author/${author.slug}`} className="hover:text-sky-600">
                 {decode(author.name)}
               </Link>
             </div>
@@ -92,11 +89,7 @@ const Content = ({ content }: { content: Post | Page }) => {
           <div className="flex text-sm font-serif lowercase items-center gap-x-3 mt-4 text-gray-500 flex-wrap">
             <TagIcon className="h-4 w-4 inline-block" />
             {tags.map((tag) => (
-              <Link
-                key={tag.id}
-                href={`/tag/${tag.slug}`}
-                className="hover:text-sky-600"
-              >
+              <Link key={tag.id} href={`/tag/${tag.slug}`} className="hover:text-sky-600">
                 {decode(tag.name)}
               </Link>
             ))}

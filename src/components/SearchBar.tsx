@@ -10,7 +10,9 @@ const SearchBar = () => {
 
   return (
     <form action="/posts" className="w-full relative">
-      <label htmlFor="search" className="sr-only">Search</label>
+      <label htmlFor="search" className="sr-only">
+        Search
+      </label>
       <button type="submit">
         <MagnifyingGlassIcon className="w-4 h-4 text-gray-400 absolute top-1/2 left-3 -translate-y-1/2" />
       </button>

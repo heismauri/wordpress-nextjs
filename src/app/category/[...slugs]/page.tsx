@@ -11,7 +11,7 @@ import PaginatedPosts from '@/components/PaginatedPosts';
 export const generateMetadata = async ({ params: { slugs } }: PaginatedRouteWithSlugs): Promise<Metadata> => {
   let parent = 0;
   const pageIndex = slugs.indexOf('page');
-  const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
+  const currentPage = parseInt((pageIndex !== -1 && slugs[pageIndex + 1]) || '1', 10);
   const categorySlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
 
   if (categorySlugs.length > 1) {
@@ -25,23 +25,23 @@ export const generateMetadata = async ({ params: { slugs } }: PaginatedRouteWith
   }
 
   const result = await getCategory({ slug: categorySlugs[categorySlugs.length - 1], parent });
-  const metadata: Metadata = {}
+  const metadata: Metadata = {};
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
-      const description = data.description || ''
+      const description = data.description || '';
 
       metadata.title = currentPage > 1 ? `${decode(data.name)} – Page ${currentPage}` : decode(data.name);
       if (description.trim().length !== 0) metadata.description = getExcerpt(decode(description));
     }
   }
   return metadata;
-}
+};
 
-const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
+const Categories = async ({ params: { slugs } }: PaginatedRouteWithSlugs) => {
   let parent = 0;
   const pageIndex = slugs.indexOf('page');
-  const currentPage = parseInt(pageIndex !== -1 && slugs[pageIndex + 1] || '1', 10);
+  const currentPage = parseInt((pageIndex !== -1 && slugs[pageIndex + 1]) || '1', 10);
   const categorySlugs = slugs.slice(0, pageIndex === -1 ? slugs.length : pageIndex);
   const categoryNames = [];
 
@@ -88,9 +88,7 @@ const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
         </span>
       </h1>
       {category?.description && category.description.trim().length !== 0 && (
-        <p className="text-pretty mb-6">
-          {decode(category.description)}
-        </p>
+        <p className="text-pretty mb-6">{decode(category.description)}</p>
       )}
       <PaginatedPosts
         count={count}
@@ -100,6 +98,6 @@ const Categories = async ({ params: { slugs } } : PaginatedRouteWithSlugs) => {
       />
     </MainContainer>
   );
-}
+};
 
 export default Categories;

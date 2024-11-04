@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 import { decode } from 'he';
 
 import { getPosts } from '@/services/wordpress';
@@ -7,9 +7,13 @@ import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import Content from '@/components/Content';
 
-export const generateMetadata = async ({ params: { slug } }: { params: { slug: string } }): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params: { slug }
+}: {
+  params: { slug: string };
+}): Promise<Metadata> => {
   const result = await getPosts({ slug });
-  const metadata: Metadata = {}
+  const metadata: Metadata = {};
   if (result.isOk()) {
     const data = result.unwrap();
     const [post] = data.posts;
@@ -22,9 +26,9 @@ export const generateMetadata = async ({ params: { slug } }: { params: { slug: s
     }
   }
   return metadata;
-}
+};
 
-const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) => {
+const SinglePost = async ({ params: { slug } }: { params: { slug: string } }) => {
   const result = await getPosts({ slug });
   if (result.isErr()) {
     throw new Error(result.unwrapErr().message);
@@ -36,11 +40,7 @@ const SinglePost = async ({ params: { slug } } : { params: { slug: string } }) =
     return notFound();
   }
 
-  return (
-    <MainContainer>
-      {post && <Content content={post} />}
-    </MainContainer>
-  );
-}
+  return <MainContainer>{post && <Content content={post} />}</MainContainer>;
+};
 
 export default SinglePost;

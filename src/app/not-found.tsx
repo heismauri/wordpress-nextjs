@@ -7,6 +7,6 @@ const NotFound = () => {
       <p>It looks like nothing was found at this location.</p>
     </MainContainer>
   );
-}
+};
 
 export default NotFound;

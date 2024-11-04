@@ -9,6 +9,6 @@ const Home = () => {
       <TrendingPosts />
     </MainContainer>
   );
-}
+};
 
 export default Home;

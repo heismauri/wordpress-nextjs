@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation'
+import { notFound } from 'next/navigation';
 
 import { PaginatedRouteWithSearch } from '@/types/PaginatedRoute';
 import { getPosts } from '@/services/wordpress';
@@ -9,18 +9,19 @@ import PaginatedPosts from '@/components/PaginatedPosts';
 import RecentPosts from '@/components/RecentPosts';
 import SuspenseRecentPosts from '@/components/SuspenseRecentPosts';
 
-export const generateMetadata = async (
-  { params: { page }, searchParams }: PaginatedRouteWithSearch
-): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params: { page },
+  searchParams
+}: PaginatedRouteWithSearch): Promise<Metadata> => {
   const { search } = await searchParams;
   const currentPage = parseInt(page || '1', 10);
   const mainTitle = search ? `Results for: "${search}"` : 'Posts';
 
-  const metadata: Metadata = {}
+  const metadata: Metadata = {};
   metadata.title = currentPage > 1 ? `${mainTitle} – Page ${currentPage}` : mainTitle;
 
   return metadata;
-}
+};
 
 const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearch) => {
   const { search } = await searchParams;
@@ -41,12 +42,15 @@ const Posts = async ({ params: { page }, searchParams }: PaginatedRouteWithSearc
       {search && (
         <>
           <h1 className="mb-6 lowercase">
-            Results for: <span className="font-sans underline underline-offset-2 decoration-sky-600">{search}</span>
+            Results for:{' '}
+            <span className="font-sans underline underline-offset-2 decoration-sky-600">{search}</span>
           </h1>
           <>
             {count === 0 && (
               <>
-                <p>Sorry, but nothing matched your search terms. Please try again with some different keywords.</p>
+                <p>
+                  Sorry, but nothing matched your search terms. Please try again with some different keywords.
+                </p>
                 <Suspense fallback={<SuspenseRecentPosts />}>
                   <RecentPosts />
                 </Suspense>

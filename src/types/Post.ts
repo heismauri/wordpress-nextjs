@@ -46,7 +46,7 @@ interface WpFeaturedmedia {
 }
 
 export interface Embedded {
-  author: Author[];
+  'author': Author[];
   'wp:featuredmedia'?: WpFeaturedmedia[];
   'wp:term': Array<WpTerm[]>;
 }

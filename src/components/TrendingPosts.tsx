@@ -17,6 +17,6 @@ const TrendingPosts = async () => {
       <PaginatedPosts count={count} posts={posts} />
     </div>
   );
-}
+};
 
 export default TrendingPosts;

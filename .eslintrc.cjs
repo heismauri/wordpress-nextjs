@@ -7,9 +7,11 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react/recommended',
+    'prettier',
     'next/core-web-vitals',
     'next/typescript'
   ],
+  plugins: ['prettier'],
   ignorePatterns: ['dist'],
   settings: {
     react: { version: '18.3.1' }
@@ -26,6 +28,7 @@ module.exports = {
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'object-curly-newline': ['error', { consistent: true }],
     'quote-props': ['error', 'consistent'],
-    'quotes': ['error', 'single', { avoidEscape: true }]
+    'quotes': ['error', 'single', { avoidEscape: true }],
+    'prettier/prettier': 'error'
   }
 };

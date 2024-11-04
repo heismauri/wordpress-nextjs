@@ -31,7 +31,11 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/posts" className={menuLinkClassName} {...(currentPath === '/posts' && { "aria-current": "page" })}>
+          <Link
+            href="/posts"
+            className={menuLinkClassName}
+            {...(currentPath === '/posts' && { 'aria-current': 'page' })}
+          >
             Posts
           </Link>
         </li>

@@ -29,9 +29,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <html lang="en" className={`${dmSans.variable} ${dmSerfilDisplay.variable}`}>
-      <body className="antialiased relative min-h-screen pb-28 sm:pb-24">
-        {children}
-      </body>
+      <body className="antialiased relative min-h-screen pb-28 sm:pb-24">{children}</body>
     </html>
   );
 };

@@ -8,23 +8,25 @@ import getExcerpt from '@/utils/getExcerpt';
 import MainContainer from '@/components/MainContainer';
 import PaginatedPosts from '@/components/PaginatedPosts';
 
-export const generateMetadata = async ({ params: { slug, page } }: PaginatedRouteWithSlug): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params: { slug, page }
+}: PaginatedRouteWithSlug): Promise<Metadata> => {
   const result = await getTag({ slug });
-  const metadata: Metadata = {}
+  const metadata: Metadata = {};
   if (result.isOk()) {
     const data = result.unwrap();
     if (data) {
       const currentPage = parseInt(page || '1', 10);
-      const description = data.description || ''
+      const description = data.description || '';
 
       metadata.title = currentPage > 1 ? `${decode(data.name)} – Page ${currentPage}` : decode(data.name);
       if (description.trim().length !== 0) metadata.description = getExcerpt(decode(description));
     }
   }
   return metadata;
-}
+};
 
-const SingleTag = async ({ params: { slug, page } } : PaginatedRouteWithSlug) => {
+const SingleTag = async ({ params: { slug, page } }: PaginatedRouteWithSlug) => {
   const currentPage = parseInt(page || '1', 10);
   const tagResult = await getTag({ slug });
   if (!tagResult.isOk()) {
@@ -50,18 +52,14 @@ const SingleTag = async ({ params: { slug, page } } : PaginatedRouteWithSlug) =>
     <MainContainer>
       <h1 className="mb-6 lowercase">
         Tag:{' '}
-        <span className="font-sans underline underline-offset-2 decoration-sky-600">
-          {decode(tag.name)}
-        </span>
+        <span className="font-sans underline underline-offset-2 decoration-sky-600">{decode(tag.name)}</span>
       </h1>
       {tag?.description && tag.description.trim().length !== 0 && (
-        <p className="text-pretty mb-6">
-          {decode(tag.description)}
-        </p>
+        <p className="text-pretty mb-6">{decode(tag.description)}</p>
       )}
       <PaginatedPosts count={count} posts={posts} baseURL={`/tag/${slug}`} currentPage={currentPage} />
     </MainContainer>
   );
-}
+};
 
 export default SingleTag;
